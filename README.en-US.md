@@ -8,8 +8,8 @@
 
 ## Library, Frameworks & Tools Used
 
-- [Python 3.13]
-- [PyGame]
+- Python 3.13
+- PyGame
 
 <i> Make sure you have Python 3.13 installed in your computer(other version might not work)</i>
 

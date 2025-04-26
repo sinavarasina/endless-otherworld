@@ -8,8 +8,8 @@
 
 ## Library, Frameworks & Tools yang digunakan
 
-- [Python 3.13]
-- [PyGame]
+- Python 3.13
+- PyGame
 
 <i>Pastikan version Python 3.13 di Komputer anda (Versi lain mungkin tidak berkerja)</i>
 
