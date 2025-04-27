@@ -15,7 +15,7 @@ pygame.display.set_caption("My Scrolling Map Game - Moving!")
 # Safely handle asset path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 asset_dir = os.path.join(current_dir, '..', 'assets', 'images')
-map_image_path = os.path.join(asset_dir, 'bigMap.png')
+map_image_path = os.path.join(asset_dir, 'grasspattern.png')
 
 try:
     big_map_image = pygame.image.load(map_image_path).convert()
@@ -52,8 +52,8 @@ while running:
 
     # --- Player Input and Movement ---
     keys = pygame.key.get_pressed()
-    move_x = (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * PLAYER_SPEED
-    move_y = (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * PLAYER_SPEED
+    move_x = (keys[pygame.K_d] - keys[pygame.K_a]) * PLAYER_SPEED
+    move_y = (keys[pygame.K_s] - keys[pygame.K_w]) * PLAYER_SPEED
 
     player_x += move_x
     player_y += move_y
