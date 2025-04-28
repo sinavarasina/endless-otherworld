@@ -74,15 +74,18 @@ while running:
     player_screen_y = hero.player_y - camera_y
     screen.blit(hero.player_image, (player_screen_x, player_screen_y))
 
-    enemy.update_bullet(player_screen_x, player_screen_y)
-
+    enemy.update_bullet(hero.player_x, hero.player_y)
 
     # Gambar Enemy
     enemy_screen_x = enemy.enemy_x - camera_x
     enemy_screen_y = enemy.enemy_y - camera_y
+    
     screen.blit(enemy.enemy_image, (enemy_screen_x, enemy_screen_y))
 
-    screen.blit(enemy.bullet_image, (enemy.bullet_x, enemy.bullet_y))
+    bullet_screen_x = enemy.bullet_x - camera_x
+    bullet_screen_y = enemy.bullet_y - camera_y
+
+    screen.blit(enemy.bullet_image, (bullet_screen_x, bullet_screen_y))
 
     # --- Update Display ---
     pygame.display.flip()
