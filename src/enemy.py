@@ -44,3 +44,4 @@ class Enemy:
 
         self.bullet_x += self.bullet_dx * self.bullet_speed
         self.bullet_y += self.bullet_dy * self.bullet_speed
+
