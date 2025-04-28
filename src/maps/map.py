@@ -14,7 +14,7 @@ class Map:
         # Load map image
         current_dir = os.path.dirname(os.path.abspath(__file__))
         asset_dir = os.path.join(current_dir, "..", "..", "assets", "images")
-        map_image_path = os.path.join(asset_dir, "grasspattern.png")
+        map_image_path = os.path.join(asset_dir, "Map", "Ground", "grasspattern.png")
 
         try:
             self.big_map_image = pygame.image.load(map_image_path).convert()
@@ -35,7 +35,7 @@ class Map:
         # Load Stones
         obstacle_data = [
             ("StonesFreeWenrexa/14.png", (4000, 4000)),
-            ("StonesFreeWenrexa/00.png", (4920, 4920)),
+            ("StonesFreeWenrexa/00.png", (6000, 2000)),
             ("StonesFreeWenrexa/12.png", (2700, 6700)),
             ("StonesFreeWenrexa/13.png", (1600, 3600)),
         ]
