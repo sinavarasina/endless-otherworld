@@ -47,11 +47,9 @@ while running:
 
     # --- Player Input and Movement ---
     keys = pygame.key.get_pressed()
-    move_x = (keys[pygame.K_d] - keys[pygame.K_a]) * hero.PLAYER_SPEED
-    move_y = (keys[pygame.K_s] - keys[pygame.K_w]) * hero.PLAYER_SPEED
 
-    hero.player_x += move_x
-    hero.player_y += move_y
+    hero.player_x += hero.move_x(keys)
+    hero.player_y += hero.move_y(keys)
 
     # --- Player Boundary Checking ---
     hero.player_x = max(0, min(hero.player_x, map_width - hero.player_width))
