@@ -50,13 +50,17 @@ while running:
     screen.blit(hero.player_image, (player_screen_x, player_screen_y))
 
     # Draw Enemy
+    enemy.update_bullet(hero.player_x, hero.player_y)
+
     enemy_screen_x = enemy.enemy_x - camera_x
     enemy_screen_y = enemy.enemy_y - camera_y
     screen.blit(enemy.enemy_image, (enemy_screen_x, enemy_screen_y))
 
-    enemy_screen_x = enemy.enemy_x - camera_x - 30
-    enemy_screen_y = enemy.enemy_y - camera_y + 30
-    screen.blit(enemy.bullet_image, (enemy_screen_x, enemy_screen_y))
+    bullet_screen_x = enemy.bullet_x - camera_x
+    bullet_screen_y = enemy.bullet_y - camera_y
+    screen.blit(enemy.bullet_image, (bullet_screen_x, bullet_screen_y))
+
+    clock.tick(60)
 
     pygame.display.flip()
     clock.tick(60)
