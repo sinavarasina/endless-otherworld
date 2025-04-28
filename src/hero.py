@@ -7,14 +7,12 @@ class Hero:
         self.player_image = pygame.Surface(
             (self.PLAYER_SIZE, self.PLAYER_SIZE)
         ).convert_alpha()
-        self.player_image.fill((0, 255, 0))  # Green color
+        self.player_image.fill((0, 255, 0))
         self.player_width, self.player_height = self.player_image.get_size()
         self.PLAYER_SPEED = 5
         self.player_x = map_width // 2
         self.player_y = map_height // 2
         self.player_mask = pygame.mask.from_surface(self.player_image)
-
-    # src/hero.py
 
     def move(self, keys, obstacle_list=None):
         move_x = (keys[pygame.K_d] - keys[pygame.K_a]) * self.PLAYER_SPEED

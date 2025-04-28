@@ -60,8 +60,6 @@ while running:
     bullet_screen_y = enemy.bullet_y - camera_y
     screen.blit(enemy.bullet_image, (bullet_screen_x, bullet_screen_y))
 
-    clock.tick(60)
-
     pygame.display.flip()
     clock.tick(60)
 
