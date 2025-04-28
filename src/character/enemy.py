@@ -6,7 +6,7 @@ import math
 class Enemy(Character):
     def __init__(self, map_width, map_height):
         super().__init__(map_width, map_height, size=40, color=(255, 0, 0))
-        self.speed = 3  # Sedikit lebih lambat dari Hero
+        self.speed = 3
         self.bullet = Bullet(owner=self)
 
     def update(self, target_x, target_y, obstacle_list=None):
