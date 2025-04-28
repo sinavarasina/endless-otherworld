@@ -17,10 +17,9 @@ pygame.display.set_caption("Endless Otherworld")
 # --- Load Map
 map_obj = Map(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-# --- Load Hero
+# --- Load Hero and Enemy
 hero = Hero(*map_obj.get_map_size())
 enemy = Enemy(*map_obj.get_map_size())
-enemy.bullet()
 
 # --- Main Loop
 clock = pygame.time.Clock()
@@ -34,31 +33,22 @@ while running:
     keys = pygame.key.get_pressed()
 
     # Move Hero + collision check
-    hero.move(keys, obstacle_list=map_obj.get_obstacles())
+    hero.handle_input(keys, obstacle_list=map_obj.get_obstacles())
 
-    # Update camera
-    map_obj.update_camera(hero.player_x, hero.player_y)
+    # Enemy update (chase Hero)
+    enemy.update(hero.x, hero.y, obstacle_list=map_obj.get_obstacles())
 
-    # Draw
+    # Update camera based on Hero
+    map_obj.update_camera(hero.x, hero.y)
+    camera_x, camera_y = map_obj.get_camera_offset()
+
+    # Draw everything
     screen.fill((0, 0, 0))
     map_obj.draw(screen)
 
-    # Draw Hero
-    camera_x, camera_y = map_obj.get_camera_offset()
-    player_screen_x = hero.player_x - camera_x
-    player_screen_y = hero.player_y - camera_y
-    screen.blit(hero.player_image, (player_screen_x, player_screen_y))
-
-    # Draw Enemy
-    enemy.update_bullet(hero.player_x, hero.player_y)
-
-    enemy_screen_x = enemy.enemy_x - camera_x
-    enemy_screen_y = enemy.enemy_y - camera_y
-    screen.blit(enemy.enemy_image, (enemy_screen_x, enemy_screen_y))
-
-    bullet_screen_x = enemy.bullet_x - camera_x
-    bullet_screen_y = enemy.bullet_y - camera_y
-    screen.blit(enemy.bullet_image, (bullet_screen_x, bullet_screen_y))
+    hero.draw(screen, camera_x, camera_y)
+    enemy.draw(screen, camera_x, camera_y)
+    enemy.bullet.draw(screen, camera_x, camera_y)
 
     pygame.display.flip()
     clock.tick(60)
