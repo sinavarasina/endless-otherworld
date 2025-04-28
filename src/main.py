@@ -3,8 +3,8 @@
 import pygame
 import sys
 import os
-from hero import Hero
-from enemy import Enemy
+from character.hero import Hero
+from character.enemy import Enemy
 from maps.map import Map
 
 pygame.init()

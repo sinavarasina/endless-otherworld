@@ -23,7 +23,7 @@ class Enemy:
 
     def bullet(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        asset_dir = os.path.join(current_dir, "..", "assets", "images")
+        asset_dir = os.path.join(current_dir, "..", "..", "assets", "images")
         bullet_image_path = os.path.join(asset_dir, "purplebullet.png")
         self.bullet_image = pygame.image.load(bullet_image_path).convert_alpha()
 
@@ -44,4 +44,3 @@ class Enemy:
 
         self.bullet_x += self.bullet_dx * self.bullet_speed
         self.bullet_y += self.bullet_dy * self.bullet_speed
-
