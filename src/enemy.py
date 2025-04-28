@@ -32,7 +32,7 @@ class Enemy():
         if(self.bullet_timeout == 300):
             self.bullet_timeout = 0
             self.bullet_x = self.enemy_x
-            self.bullet_x = self.enemy_y
+            self.bullet_y = self.enemy_y
 
 
         dx = target_x - self.bullet_x
