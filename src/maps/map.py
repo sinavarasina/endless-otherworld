@@ -1,8 +1,7 @@
-# src/maps/map.py
 import pygame
 import os
 import sys
-from maps.obstacle.stone import Stone
+from .obstacle.stone import Stone
 
 
 class Map:

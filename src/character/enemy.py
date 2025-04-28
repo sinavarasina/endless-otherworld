@@ -1,5 +1,5 @@
-from character.character import Character
-from character.bullet import Bullet
+from .character import Character
+from .bullet import Bullet
 import math
 
 

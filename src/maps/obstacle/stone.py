@@ -1,4 +1,4 @@
-from maps.obstacle.obstacle import Obstacle
+from .obstacle import Obstacle
 
 
 class Stone(Obstacle):
