@@ -13,7 +13,7 @@ class Hero():
     def move_x(self, keys):
         move_x = (keys[pygame.K_d] - keys[pygame.K_a]) * self.PLAYER_SPEED
         return move_x
-    
+
     def move_y(self, keys):
         move_y = (keys[pygame.K_s] - keys[pygame.K_w]) * self.PLAYER_SPEED
         return move_y

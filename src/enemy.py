@@ -13,9 +13,9 @@ class Enemy():
         self.enemy_y = map_height // 2
 
         self.bullet_image = 0
-        self.bullet_x = self.enemy_x
-        self.bullet_y = self.enemy_y
-        self.bullet_speed = 5
+        self.bullet_x = 0
+        self.bullet_y = 0
+        self.bullet_speed = 2
 
     def bullet(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))

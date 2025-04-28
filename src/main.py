@@ -56,7 +56,6 @@ while running:
     hero.player_x = max(0, min(hero.player_x, map_width - hero.player_width))
     hero.player_y = max(0, min(hero.player_y, map_height - hero.player_height))
 
-    enemy.update_bullet(hero.player_x, hero.player_y)
     # --- Camera Update ---
     camera_x = hero.player_x - SCREEN_WIDTH // 2
     camera_y = hero.player_y - SCREEN_HEIGHT // 2
@@ -75,14 +74,15 @@ while running:
     player_screen_y = hero.player_y - camera_y
     screen.blit(hero.player_image, (player_screen_x, player_screen_y))
 
+    enemy.update_bullet(player_screen_x, player_screen_y)
+
+
     # Gambar Enemy
     enemy_screen_x = enemy.enemy_x - camera_x
     enemy_screen_y = enemy.enemy_y - camera_y
     screen.blit(enemy.enemy_image, (enemy_screen_x, enemy_screen_y))
 
-    enemy_screen_x = enemy.enemy_x - camera_x - 30
-    enemy_screen_y = enemy.enemy_y - camera_y + 30
-    screen.blit(enemy.bullet_image, (enemy_screen_x, enemy_screen_y))
+    screen.blit(enemy.bullet_image, (enemy.bullet_x, enemy.bullet_y))
 
     # --- Update Display ---
     pygame.display.flip()
