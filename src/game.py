@@ -19,7 +19,7 @@ class Game:
         self.map_obj = Map(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         # Load Hero and Enemy
-        self.hero = Hero(*self.map_obj.get_map_size())
+        self.hero = Hero(*self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         self.enemy = Enemy(*self.map_obj.get_map_size())
 
         # Clock
@@ -43,6 +43,7 @@ class Game:
                     mouse_down_position_x, mouse_down_position_y = event.pos  # click position
                     mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right, 4=upscroll, 5=downscroll
                     print(f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}")
+                    self.hero.handle_mouse_input(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, mouse_down_position_x, mouse_down_position_y)
 
 
             keys = pygame.key.get_pressed()
@@ -65,8 +66,10 @@ class Game:
 
             self.hero.draw(self.screen, camera_x, camera_y)
             self.enemy.draw(self.screen, camera_x, camera_y)
+
+            self.hero.bullet.update()
+            self.hero.bullet.draw(self.screen)
             self.enemy.bullet.draw(self.screen, camera_x, camera_y)
-            self.hero.bullet.draw(self.screen, camera_x, camera_y)
 
             pygame.display.flip()
             self.clock.tick(60)
