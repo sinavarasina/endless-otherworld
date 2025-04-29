@@ -45,6 +45,7 @@ class Game:
                     print(f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}")
                     self.hero.handle_mouse_input(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, mouse_down_position_x, mouse_down_position_y)
 
+            dt = self.clock.tick(60)
 
             keys = pygame.key.get_pressed()
 
@@ -67,7 +68,7 @@ class Game:
             self.hero.draw(self.screen, camera_x, camera_y)
             self.enemy.draw(self.screen, camera_x, camera_y)
 
-            self.hero.bullet.update()
+            self.hero.bullet.update(dt)
             self.hero.bullet.draw(self.screen)
             self.enemy.bullet.draw(self.screen, camera_x, camera_y)
 
