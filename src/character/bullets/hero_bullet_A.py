@@ -39,6 +39,7 @@ class Hero_Bullet_A:
         self.frame_delay = 50
         self.current_frame = 0
         self.frame_timer = 0
+        self.animation_speed = 6
         self.scale = 1
 
         bullet_animation_path = os.path.join(asset_dir, "Bullet", "PurpleBulletAnimation.png")
@@ -68,7 +69,7 @@ class Hero_Bullet_A:
             self.active = True
             self.timeout = 0
 
-    def update(self, dt):
+    def update(self):
         if self.active:
             self.x += self.vx
             self.y += self.vy
@@ -82,7 +83,7 @@ class Hero_Bullet_A:
             self.timeout = 0  # reset timeout jika peluru dimatikan
 
         #animation
-        self.frame_timer += dt
+        self.frame_timer += self.animation_speed
         if self.frame_timer >= self.frame_delay:
             self.current_frame = (self.current_frame + 1) % len(self.frames)
             self.frame_timer = 0
