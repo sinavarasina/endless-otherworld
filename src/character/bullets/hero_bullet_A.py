@@ -24,7 +24,7 @@ class Hero_Bullet_A:
 
         self.x = Screen_Width/2
         self.y = Screen_Height/2
-        self.speed = 50
+        self.speed = 8
         self.timeout = 0
 
         self.vx = 0
@@ -39,10 +39,10 @@ class Hero_Bullet_A:
         self.frame_delay = 50
         self.current_frame = 0
         self.frame_timer = 0
-        self.animation_speed = 6
-        self.scale = 1
+        self.animation_speed = 8
+        self.scale = 2
 
-        bullet_animation_path = os.path.join(asset_dir, "Bullet", "PurpleBulletAnimation.png")
+        bullet_animation_path = os.path.join(asset_dir, "Bullet", "BlueShurikenAnimation.png")
         sprite_sheet_image = pygame.image.load(bullet_animation_path).convert_alpha()
         self.sprite_sheet = SpriteSheet(sprite_sheet_image)
 
@@ -76,7 +76,7 @@ class Hero_Bullet_A:
         
         self.timeout += 1  # ✔️ timeout dihitung per frame
 
-        if self.timeout > 20:
+        if self.timeout > 40:
             self.x = self.Base_x
             self.y = self.Base_y
             self.active = False
@@ -91,4 +91,5 @@ class Hero_Bullet_A:
     def draw(self, screen, camera_x=0, camera_y=0):
         bullet_screen_x = self.x - camera_x
         bullet_screen_y = self.y - camera_y
-        screen.blit(self.frames[self.current_frame], (bullet_screen_x, bullet_screen_y))
+        if self.active:
+            screen.blit(self.frames[self.current_frame], (bullet_screen_x, bullet_screen_y))
