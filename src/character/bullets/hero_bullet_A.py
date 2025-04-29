@@ -2,12 +2,13 @@ import pygame
 import os
 import math
 
-class Bullet:
+class Hero_Bullet_A:
     def __init__(self, owner):
         self.owner = owner
         current_dir = os.path.dirname(os.path.abspath(__file__))
         asset_dir = os.path.join(
             current_dir,
+            "..",
             "..",
             "..",
             "assets",
@@ -39,8 +40,7 @@ class Bullet:
             self.dy = dy / distance
 
         self.x += self.dx * self.speed
-        self.y += self.dy * self.speed
-
+        
     def draw(self, screen, camera_x=0, camera_y=0):
         bullet_screen_x = self.x - camera_x
         bullet_screen_y = self.y - camera_y
