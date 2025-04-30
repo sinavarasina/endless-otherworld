@@ -1,14 +1,18 @@
 from .character import Character
 from .bullets.Enemy_Bullets.bullet import Bullet
 import math
+from path_config import ASSET_DIR
+import os
 
 class Enemy(Character):
     def __init__(self, map_width, map_height):
-        super().__init__(map_width, map_height, size=40, color=(255, 0, 0))
+        animation_path = os.path.join(ASSET_DIR, "Enemies", "DinoSprites - doux.png")
+
+        super().__init__(animation_path, 24, 24, (0, 0, 0), 50, 30, 3, map_width, map_height)
         self.speed = 3
         self.bullet = Bullet(owner=self)
 
-    def update(self, target_x, target_y, obstacle_list=None):
+    def updated(self, target_x, target_y, obstacle_list=None):
         old_x, old_y = self.x, self.y
 
         dx = target_x - self.x

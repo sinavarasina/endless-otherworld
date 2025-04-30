@@ -60,7 +60,7 @@ class Hero_Bullet_A:
         if self.active:
             self.x += self.vx
             self.y += self.vy
-        
+
         self.timeout += 1
 
         if self.timeout > 40:
