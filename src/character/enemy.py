@@ -1,7 +1,6 @@
 from .character import Character
-from .bullet import Bullet
+from .bullets.Enemy_Bullets.bullet import Bullet
 import math
-
 
 class Enemy(Character):
     def __init__(self, map_width, map_height):

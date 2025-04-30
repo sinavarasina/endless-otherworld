@@ -1,35 +1,22 @@
 import pygame
 import os
 import math
-
 from src.components.get_image import SpriteSheet
+from path_config import ASSET_DIR
 
 class Hero_Bullet_A:
     def __init__(self, owner, Screen_Width, Screen_Height):
         self.owner = owner
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        asset_dir = os.path.join(
-            current_dir,
-            "..",
-            "..",
-            "..",
-            "assets",
-            "images",
-        )
-        bullet_image_path = os.path.join(asset_dir, "Bullet", "purplebullet.png")
-        self.image = pygame.image.load(bullet_image_path).convert_alpha()
-        
+
+        #bullet logic variable
         self.Base_x = Screen_Width/2
         self.Base_y = Screen_Height/2
-
         self.x = Screen_Width/2
         self.y = Screen_Height/2
         self.speed = 8
         self.timeout = 0
-
         self.vx = 0
         self.vy = 0
-
         self.active = False
 
         #animation
@@ -42,7 +29,7 @@ class Hero_Bullet_A:
         self.animation_speed = 8
         self.scale = 2
 
-        bullet_animation_path = os.path.join(asset_dir, "Bullet", "BlueShurikenAnimation.png")
+        bullet_animation_path = os.path.join(ASSET_DIR, "Bullet", "BlueShurikenAnimation.png")
         sprite_sheet_image = pygame.image.load(bullet_animation_path).convert_alpha()
         self.sprite_sheet = SpriteSheet(sprite_sheet_image)
 
@@ -50,7 +37,7 @@ class Hero_Bullet_A:
                        for i in range(6)]
 
 
-    def Shoot(self, Screen_Width, Screen_Height, x, y):
+    def Shoot(self, x, y):
         if not self.active:
             self.x = self.Base_x
             self.y = self.Base_y
@@ -74,13 +61,13 @@ class Hero_Bullet_A:
             self.x += self.vx
             self.y += self.vy
         
-        self.timeout += 1  # ✔️ timeout dihitung per frame
+        self.timeout += 1
 
         if self.timeout > 40:
             self.x = self.Base_x
             self.y = self.Base_y
             self.active = False
-            self.timeout = 0  # reset timeout jika peluru dimatikan
+            self.timeout = 0 
 
         #animation
         self.frame_timer += self.animation_speed

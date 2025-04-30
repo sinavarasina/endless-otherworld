@@ -43,7 +43,7 @@ class Game:
                     mouse_down_position_x, mouse_down_position_y = event.pos  # click position
                     mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right, 4=upscroll, 5=downscroll
                     print(f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}")
-                    self.hero.handle_mouse_input(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, mouse_down_position_x, mouse_down_position_y)
+                    self.hero.handle_mouse_input(mouse_down_position_x, mouse_down_position_y)
 
             # dt = self.clock.tick(60)
 

@@ -1,7 +1,7 @@
 from .character import Character
 import pygame
 import math
-from .bullets.hero_bullet_A import Hero_Bullet_A
+from .bullets.Hero_Bullets.hero_bullet_A import Hero_Bullet_A
 
 
 class Hero(Character):
@@ -14,6 +14,6 @@ class Hero(Character):
         dy = keys[pygame.K_s] - keys[pygame.K_w]
         self.move(dx, dy, obstacle_list)
 
-    def handle_mouse_input(self,Screen, Screen_Width, Screen_Height, x, y):
-        self.bullet.Shoot(Screen_Width, Screen_Height, x, y)
+    def handle_mouse_input(self, x, y):
+        self.bullet.Shoot(x, y)
         

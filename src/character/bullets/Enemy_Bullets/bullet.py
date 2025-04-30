@@ -1,19 +1,12 @@
 import pygame
 import os
 import math
+from path_config import ASSET_DIR
 
 class Bullet:
     def __init__(self, owner):
         self.owner = owner
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        asset_dir = os.path.join(
-            current_dir,
-            "..",
-            "..",
-            "assets",
-            "images",
-        )
-        bullet_image_path = os.path.join(asset_dir, "Bullet", "purplebullet.png")
+        bullet_image_path = os.path.join(ASSET_DIR, "Bullet", "purplebullet.png")
         self.image = pygame.image.load(bullet_image_path).convert_alpha()
 
         self.x = owner.x
