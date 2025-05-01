@@ -3,16 +3,29 @@ import os
 from path_config import ASSET_DIR
 from src.components.get_image import SpriteSheet
 
+
 class Character:
-    def __init__(self, assets_path, frame_width, frame_height, color_key, frame_delay, animation_speed, scale, map_width, map_height, speed=5):
+    def __init__(
+        self,
+        assets_path,
+        frame_width,
+        frame_height,
+        color_key,
+        frame_delay,
+        animation_speed,
+        scale,
+        map_width,
+        map_height,
+        speed=5,
+    ):
         self.speed = speed
         self.x = map_width // 2
         self.y = map_height // 2
 
-        #animation
+        # animation
         self.frame_width = frame_width
         self.frame_height = frame_height
-        self.color_key = color_key #(0, 0, 0)
+        self.color_key = color_key  # (0, 0, 0)
         self.frame_delay = frame_delay
         self.current_frame = 0
         self.frame_timer = 0
@@ -20,20 +33,20 @@ class Character:
         self.scale = scale
 
         self.set_animation(assets_path)
-        
+
         self.mask = pygame.mask.from_surface(self.frames[0])
 
     def set_animation(self, assets_path):
-        self.sprite_sheet = SpriteSheet(pygame.image.load(assets_path).convert_alpha())
+        self.sprite_sheet = SpriteSheet(pygame.image.load(assets_path))
         self.frames = [
-            self.sprite_sheet.get_image(i, self.frame_width, self.frame_height, self.scale, self.color_key)
+            self.sprite_sheet.get_image(
+                i, self.frame_width, self.frame_height, self.scale, self.color_key
+            )
             for i in range(6)
         ]
         self.current_frame = 0
         self.frame_timer = 0
         self.mask = pygame.mask.from_surface(self.frames[0])
-
-
 
     def move(self, dx, dy, obstacle_list=None):
         new_x = self.x + dx * self.speed
@@ -53,7 +66,7 @@ class Character:
                     break
 
     def update(self):
-        #animation
+        # animation
         self.frame_timer += self.animation_speed
         if self.frame_timer >= self.frame_delay:
             self.current_frame = (self.current_frame + 1) % len(self.frames)

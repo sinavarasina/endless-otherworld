@@ -20,14 +20,15 @@ class Game:
         self.map_obj = Map(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         # Load Hero and Enemy
-        self.hero = Hero(*self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.hero = Hero(
+            *self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT
+        )
         self.enemy = Enemy(*self.map_obj.get_map_size())
 
         # Clock
         self.clock = pygame.time.Clock()
         self.running = True
         self.pressed_keys = set()
-
 
     def start(self):
         while self.running:
@@ -37,21 +38,28 @@ class Game:
 
                 # mouse detection
                 if event.type == pygame.MOUSEMOTION:
-                    mouse_now_x = event.pos[0] # x mouse position now
-                    mouse_now_y = event.pos[1] # y mouse position now
-                    rel = event.rel      # position change (dx, dy)
-
+                    mouse_now_x = event.pos[0]  # x mouse position now
+                    mouse_now_y = event.pos[1]  # y mouse position now
+                    rel = event.rel  # position change (dx, dy)
 
                 if event.type == pygame.KEYDOWN:
                     self.pressed_keys.add(event.key)
                     if event.key == pygame.K_w:
-                        self.hero.set_animation(os.path.join(ASSET_DIR, "Hero", "walk_up.png"))
+                        self.hero.set_animation(
+                            os.path.join(ASSET_DIR, "Hero", "walk_up.png")
+                        )
                     elif event.key == pygame.K_a:
-                        self.hero.set_animation(os.path.join(ASSET_DIR, "Hero", "walk_left_down.png"))
+                        self.hero.set_animation(
+                            os.path.join(ASSET_DIR, "Hero", "walk_left_down.png")
+                        )
                     elif event.key == pygame.K_s:
-                        self.hero.set_animation(os.path.join(ASSET_DIR, "Hero", "walk_down.png"))
+                        self.hero.set_animation(
+                            os.path.join(ASSET_DIR, "Hero", "walk_down.png")
+                        )
                     elif event.key == pygame.K_d:
-                        self.hero.set_animation(os.path.join(ASSET_DIR, "Hero", "walk_right_down.png"))
+                        self.hero.set_animation(
+                            os.path.join(ASSET_DIR, "Hero", "walk_right_down.png")
+                        )
 
                 elif event.type == pygame.KEYUP:
                     if event.key in self.pressed_keys:
@@ -59,15 +67,22 @@ class Game:
 
                     # Jika tidak ada tombol arah yang masih ditekan, set animasi idle
                     if not self.pressed_keys:
-                        self.hero.set_animation(os.path.join(ASSET_DIR, "Hero", "idle_down.png"))
-                    
+                        self.hero.set_animation(
+                            os.path.join(ASSET_DIR, "Hero", "idle_down.png")
+                        )
 
                 # mouse button down detection
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_down_position_x, mouse_down_position_y = event.pos  # click position
+                    mouse_down_position_x, mouse_down_position_y = (
+                        event.pos
+                    )  # click position
                     mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right, 4=upscroll, 5=downscroll
-                    print(f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}")
-                    self.hero.handle_mouse_input(mouse_down_position_x, mouse_down_position_y)
+                    print(
+                        f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}"
+                    )
+                    self.hero.handle_mouse_input(
+                        mouse_down_position_x, mouse_down_position_y
+                    )
 
             keys = pygame.key.get_pressed()
 
@@ -85,6 +100,9 @@ class Game:
             # Update camera based on Hero
             self.map_obj.update_camera(self.hero.x, self.hero.y)
             camera_x, camera_y = self.map_obj.get_camera_offset()
+
+            camera_x += 50
+            camera_y += 50
 
             # Draw everything
             self.screen.fill((0, 0, 0))
