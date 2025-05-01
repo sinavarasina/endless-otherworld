@@ -22,6 +22,8 @@ class Character:
         self.x = map_width // 2
         self.y = map_height // 2
 
+        self.assets_path = assets_path
+
         # animation
         self.frame_width = frame_width
         self.frame_height = frame_height
