@@ -5,7 +5,7 @@ from .character.hero import Hero
 from .character.enemy import Enemy
 from .maps.map import Map
 from path_config import ASSET_DIR
-
+from src.Hero_input import Detect_WASD
 
 class Game:
     def __init__(self):
@@ -30,6 +30,28 @@ class Game:
         self.running = True
         self.pressed_keys = set()
 
+        #Set
+        self.hero_WASD_animation_now = None
+
+
+    #Check collition of bullet to enemy
+    # def Collition_Detection(self):
+    #     Bullet_hero_mask = self.hero.bullet.mask
+    #     Enemy_mask = self.enemy.mask
+
+    #     Position_Hero_Bullet_x = self.hero.bullet.x
+    #     Position_Hero_Bullet_y = self.hero.bullet.y
+    #     Position_Enemy_x = self.enemy.x
+    #     Position_Enemy_y = self.enemy.y
+
+    #     print(f"postionbull:({Position_Hero_Bullet_x}, {Position_Hero_Bullet_y}) and positionenemy : ({Position_Enemy_x}, {Position_Enemy_y})")
+    #     print(f"screenbullet:({self.hero.bullet.bullet_screen_x}, {self.hero.bullet.bullet_screen_y})")
+    #     offset = (Position_Enemy_x - Position_Hero_Bullet_x, Position_Enemy_y - Position_Hero_Bullet_y)
+
+    #     if Bullet_hero_mask.overlap(Enemy_mask, offset):
+    #         print("overlap")
+
+
     def start(self):
         while self.running:
             for event in pygame.event.get():
@@ -41,35 +63,9 @@ class Game:
                     mouse_now_x = event.pos[0]  # x mouse position now
                     mouse_now_y = event.pos[1]  # y mouse position now
                     rel = event.rel  # position change (dx, dy)
-
-                if event.type == pygame.KEYDOWN:
-                    self.pressed_keys.add(event.key)
-                    if event.key == pygame.K_w:
-                        self.hero.set_animation(
-                            os.path.join(ASSET_DIR, "Hero", "walk_up.png")
-                        )
-                    elif event.key == pygame.K_a:
-                        self.hero.set_animation(
-                            os.path.join(ASSET_DIR, "Hero", "walk_left_down.png")
-                        )
-                    elif event.key == pygame.K_s:
-                        self.hero.set_animation(
-                            os.path.join(ASSET_DIR, "Hero", "walk_down.png")
-                        )
-                    elif event.key == pygame.K_d:
-                        self.hero.set_animation(
-                            os.path.join(ASSET_DIR, "Hero", "walk_right_down.png")
-                        )
-
-                elif event.type == pygame.KEYUP:
-                    if event.key in self.pressed_keys:
-                        self.pressed_keys.remove(event.key)
-
-                    # Jika tidak ada tombol arah yang masih ditekan, set animasi idle
-                    if not self.pressed_keys:
-                        self.hero.set_animation(
-                            os.path.join(ASSET_DIR, "Hero", "idle_down.png")
-                        )
+                
+                # WASD keyboard input detection
+                Detect_WASD(self, ASSET_DIR)
 
                 # mouse button down detection
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -116,6 +112,9 @@ class Game:
             self.enemy.bullet.draw(self.screen, camera_x, camera_y)
 
             pygame.display.flip()
+
+            #check bullet collition to enemy
+            self.Collition_Detection()
             self.clock.tick(60)
 
         pygame.quit()

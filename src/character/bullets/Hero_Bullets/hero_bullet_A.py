@@ -36,6 +36,11 @@ class Hero_Bullet_A:
         self.frames = [self.sprite_sheet.get_image(i, self.frame_width, self.frame_height, self.scale, self.color_key)
                        for i in range(6)]
 
+        #collition detection
+        self.mask = pygame.mask.from_surface(self.frames[0])
+        self.bullet_screen_x = None
+        self.bullet_screen_y = None
+
 
     def Shoot(self, x, y):
         if not self.active:
@@ -75,8 +80,10 @@ class Hero_Bullet_A:
             self.current_frame = (self.current_frame + 1) % len(self.frames)
             self.frame_timer = 0
 
+        self.mask = pygame.mask.from_surface(self.frames[self.current_frame])
+
     def draw(self, screen, camera_x=0, camera_y=0):
-        bullet_screen_x = self.x - camera_x
-        bullet_screen_y = self.y - camera_y
+        self.bullet_screen_x = self.x - camera_x
+        self.bullet_screen_y = self.y - camera_y
         if self.active:
-            screen.blit(self.frames[self.current_frame], (bullet_screen_x, bullet_screen_y))
+            screen.blit(self.frames[self.current_frame], (self.bullet_screen_x, self.bullet_screen_y))
