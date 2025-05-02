@@ -61,9 +61,15 @@ class Game:
                         event.pos
                     )  # click position
                     mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right, 4=upscroll, 5=downscroll
-                    print(
-                        f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}"
-                    )
+
+                    ################
+                    # debug thingy #
+                    ################
+
+                    # print(
+                    #    f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}"
+                    # )
+
                     world_mouse_x = mouse_down_position_x + camera_x
                     world_mouse_y = mouse_down_position_y + camera_y
                     self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)

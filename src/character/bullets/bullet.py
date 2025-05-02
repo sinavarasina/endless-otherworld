@@ -43,8 +43,10 @@ class Bullet:
         if not self.active:
             self.x = self.owner.x + (self.owner.frame_width * self.owner.scale) // 2
             self.y = self.owner.y + (self.owner.frame_height * self.owner.scale) // 2
-            print(f"{self.owner.x}, {self.owner.y}")
-            print(f"{self.x}, {self.y}")
+
+            # debug thingy lol, just for research use, dont uncomment unless u know wht u do
+            # print(f"{self.owner.x}, {self.owner.y}")
+            # print(f"{self.x}, {self.y}")
 
             dx = target_x - self.x
             dy = target_y - self.y
