@@ -3,7 +3,7 @@ import os
 from path_config import ASSET_DIR
 from src.components.get_image import SpriteSheet
 
-
+#ini class karakter
 class Character:
     def __init__(
         self,
