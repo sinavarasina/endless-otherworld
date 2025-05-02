@@ -1,6 +1,7 @@
 import pygame
 import os
 
+
 def Detect_WASD(self, ASSET_DIR):
     keys = pygame.key.get_pressed()
 

@@ -5,7 +5,8 @@ from .character.hero import Hero
 from .character.enemy import Enemy
 from .maps.map import Map
 from path_config import ASSET_DIR
-from src.Hero_input import Detect_WASD
+from src.logic.hero_input import Detect_WASD
+
 
 class Game:
     def __init__(self):
@@ -30,11 +31,17 @@ class Game:
         self.running = True
         self.pressed_keys = set()
 
-        #Set
+        # Set
         self.hero_WASD_animation_now = None
 
     def start(self):
         while self.running:
+            # Update camera based on Hero
+            self.map_obj.update_camera(self.hero.x, self.hero.y)
+            camera_x, camera_y = self.map_obj.get_camera_offset()
+            camera_x += 50
+            camera_y += 50
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -44,7 +51,7 @@ class Game:
                     mouse_now_x = event.pos[0]  # x mouse position now
                     mouse_now_y = event.pos[1]  # y mouse position now
                     rel = event.rel  # position change (dx, dy)
-                
+
                 # WASD keyboard input detection
                 Detect_WASD(self, ASSET_DIR)
 
@@ -57,9 +64,9 @@ class Game:
                     print(
                         f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}"
                     )
-                    self.hero.handle_mouse_input(
-                        mouse_down_position_x, mouse_down_position_y
-                    )
+                    world_mouse_x = mouse_down_position_x + camera_x
+                    world_mouse_y = mouse_down_position_y + camera_y
+                    self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)
 
             keys = pygame.key.get_pressed()
 
@@ -73,14 +80,6 @@ class Game:
             self.enemy.updated(
                 self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles()
             )
-
-            # Update camera based on Hero
-            self.map_obj.update_camera(self.hero.x, self.hero.y)
-            camera_x, camera_y = self.map_obj.get_camera_offset()
-
-            camera_x += 50
-            camera_y += 50
-
             # Draw everything
             self.screen.fill((0, 0, 0))
             self.map_obj.draw(self.screen)
@@ -89,7 +88,7 @@ class Game:
             self.enemy.draw(self.screen, camera_x, camera_y)
 
             self.hero.bullet.update()
-            self.hero.bullet.draw(self.screen)
+            self.hero.bullet.draw(self.screen, camera_x, camera_y)
             self.enemy.bullet.draw(self.screen, camera_x, camera_y)
 
             pygame.display.flip()
