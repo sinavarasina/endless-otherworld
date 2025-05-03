@@ -6,6 +6,7 @@ from .character.enemy import Enemy
 from .maps.map import Map
 from path_config import ASSET_DIR
 from src.logic.hero_input import Detect_WASD
+from src.main_menu.main_menu import MainMenu
 
 
 class Game:
@@ -34,6 +35,11 @@ class Game:
         # Set
         self.hero_WASD_animation_now = None
 
+        # main menu logic
+        # self.background_run_one_time = 0
+        self.main_menu_screen = MainMenu(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.main_menu = True
+
     def start(self):
         while self.running:
             # Update camera based on Hero
@@ -47,10 +53,10 @@ class Game:
                     self.running = False
 
                 # mouse detection
-                if event.type == pygame.MOUSEMOTION:
-                    mouse_now_x = event.pos[0]  # x mouse position now
-                    mouse_now_y = event.pos[1]  # y mouse position now
-                    rel = event.rel  # position change (dx, dy)
+                # if event.type == pygame.MOUSEMOTION:
+                #     mouse_now_x = event.pos[0]  # x mouse position now
+                #     mouse_now_y = event.pos[1]  # y mouse position now
+                #     rel = event.rel  # position change (dx, dy)
 
                 # WASD keyboard input detection
                 Detect_WASD(self, ASSET_DIR)
@@ -73,6 +79,21 @@ class Game:
                     world_mouse_x = mouse_down_position_x + camera_x
                     world_mouse_y = mouse_down_position_y + camera_y
                     self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)
+
+            # main menu looping
+            if self.main_menu == True:
+                self.main_menu_screen.draw()
+                self.map_obj.draw(self.screen)
+                self.hero.draw(self.screen, camera_x, camera_y)
+                self.hero.update()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    self.main_menu = False
+                if keys[pygame.K_ESCAPE]:
+                    self.running = False
+                self.clock.tick(60)
+                continue  # Skip game logic
 
             keys = pygame.key.get_pressed()
 

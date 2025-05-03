@@ -13,7 +13,7 @@ class Bullet:
         # bullet logic variable
         self.x = 0
         self.y = 0
-        self.speed = 8
+        self.speed = 20
         self.timeout = 0
         self.vx = 0
         self.vy = 0
@@ -69,7 +69,7 @@ class Bullet:
 
         self.timeout += 1
 
-        if self.timeout > 40:
+        if self.timeout > 20:
             self.active = False
             self.timeout = 0
 
