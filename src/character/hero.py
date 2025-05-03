@@ -9,7 +9,7 @@ from path_config import ASSET_DIR
 
 class Hero(Character):
     def __init__(self, map_width, map_height, Screen_Width, Screen_Height):
-        self.animation_path = os.path.join(ASSET_DIR, "Hero", "idle_down.png")
+        self.animation_path = os.path.join(ASSET_DIR, "Hero", "death_normal_down.png")
         super().__init__(
             self.animation_path,
             48,
