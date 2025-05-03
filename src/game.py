@@ -8,7 +8,7 @@ from path_config import ASSET_DIR
 from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
 
-
+#halo
 class Game:
     def __init__(self):
         pygame.init()
