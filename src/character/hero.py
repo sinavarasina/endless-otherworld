@@ -28,7 +28,14 @@ class Hero(Character):
     def handle_input(self, keys, obstacle_list=None):
         dx = keys[pygame.K_d] - keys[pygame.K_a]
         dy = keys[pygame.K_s] - keys[pygame.K_w]
-        self.move(dx, dy, obstacle_list)
+
+        length = math.sqrt(dx*dx + dy*dy)
+        if length > 0:
+            dx_normalized = dx / length
+            dy_normalized = dy / length
+            self.move(dx_normalized, dy_normalized, obstacle_list)
+        else:
+            self.move(0, 0, obstacle_list)
 
     def handle_mouse_input(self, x, y):
         self.bullet.shoot(x, y)

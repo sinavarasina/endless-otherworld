@@ -12,22 +12,72 @@ class Enemy(Character):
         self.speed = 3
         self.bullet = Bullet(owner=self)
 
+    # def updated(self, target_x, target_y, obstacle_list=None):
+    #     old_x, old_y = self.x, self.y
+
+    #     dx = target_x - self.x
+    #     dy = target_y - self.y
+    #     distance = math.hypot(dx, dy)
+
+    #     if distance != 0:
+    #         self.x += (dx / distance) * self.speed
+    #         self.y += (dy / distance) * self.speed
+
+    #     if obstacle_list:
+    #         for obstacle in obstacle_list:
+    #             if obstacle.obstacle_collision(self):
+    #                 self.x = old_x
+    #                 self.y = old_y
+    #                 break
+
+    #     self.bullet.update(target_x, target_y)
+
     def updated(self, target_x, target_y, obstacle_list=None):
+        MAP_WIDTH = 10000
+        MAP_HEIGHT = 10000
+
         old_x, old_y = self.x, self.y
 
-        dx = target_x - self.x
-        dy = target_y - self.y
-        distance = math.hypot(dx, dy)
+        target_positions = [
+            (target_x, target_y),  
+            (target_x + MAP_WIDTH, target_y),  
+            (target_x - MAP_WIDTH, target_y), 
+            (target_x, target_y + MAP_HEIGHT),  
+            (target_x, target_y - MAP_HEIGHT),  
+            (target_x + MAP_WIDTH, target_y + MAP_HEIGHT),  
+            (target_x + MAP_WIDTH, target_y - MAP_HEIGHT),  
+            (target_x - MAP_WIDTH, target_y + MAP_HEIGHT),
+            (target_x - MAP_WIDTH, target_y - MAP_HEIGHT)   
+        ]
+        closest_target = None
+        min_distance = float('inf')
 
-        if distance != 0:
-            self.x += (dx / distance) * self.speed
-            self.y += (dy / distance) * self.speed
+        for tx, ty in target_positions:
+            dx = tx - self.x
+            dy = ty - self.y
+            distance = math.hypot(dx, dy)
+
+            if distance < min_distance:
+                min_distance = distance
+                closest_target = (tx, ty)
+
+        if closest_target:
+            tx, ty = closest_target
+            dx = tx - self.x
+            dy = ty - self.y
+            distance = math.hypot(dx, dy)
+
+            if distance != 0:
+                self.x += (dx / distance) * self.speed
+                self.y += (dy / distance) * self.speed
+
+                self.x %= MAP_WIDTH
+                self.y %= MAP_HEIGHT
 
         if obstacle_list:
             for obstacle in obstacle_list:
                 if obstacle.obstacle_collision(self):
-                    self.x = old_x
-                    self.y = old_y
+                    self.x, self.y = old_x, old_y
                     break
-
+                
         self.bullet.update(target_x, target_y)
