@@ -6,9 +6,9 @@ import os
 
 class Enemy(Character):
     def __init__(self, map_width, map_height):
-        animation_path = os.path.join(ASSET_DIR, "Enemies", "DinoSprites - doux.png")
+        animation_path = os.path.join(ASSET_DIR, "Enemies", "CasperSprites.png")
 
-        super().__init__(animation_path, 24, 24, (0, 0, 0), 50, 30, 3, map_width, map_height)
+        super().__init__(animation_path, 48, 48, (0, 0, 0), 50, 30, 3, map_width, map_height)
         self.speed = 3
         self.bullet = Bullet(owner=self)
 
