@@ -8,8 +8,8 @@ class Enemy(Character):
     def __init__(self, map_width, map_height):
         animation_path = os.path.join(ASSET_DIR, "Enemies", "CasperSprites.png")
 
-        super().__init__(animation_path, 48, 48, (0, 0, 0), 50, 30, 3, map_width, map_height)
-        self.speed = 3
+        super().__init__(animation_path, 48, 48, (0, 0, 0), 50, 10, 2.5, map_width, map_height)
+        self.speed = 2
         self.bullet = Bullet(owner=self)
 
     # def updated(self, target_x, target_y, obstacle_list=None):
