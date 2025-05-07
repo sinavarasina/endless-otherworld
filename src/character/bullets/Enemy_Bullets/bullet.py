@@ -11,30 +11,42 @@ class Bullet:
 
         self.x = owner.x
         self.y = owner.y
-        self.speed = 5
+        self.speed = 15
         self.dx = 0
         self.dy = 0
-        self.timeout = 0
+        self.timeout = 1
+        self.vx = 0
+        self.vy = 0
+        self.active = False
 
     def update(self, target_x, target_y):
-        self.timeout += 1
-        if self.timeout == 300:
+        target_x += 24
+        target_y += 32
+        print(f"hero x: {target_x}, hero y: {target_y}")
+        print(f"enemy x: {self.owner.x}, enemy y: {self.owner.y}")
+        if self.timeout == 150:
             self.timeout = 0
             self.x = self.owner.x
             self.y = self.owner.y
+            self.vx = 0
+            self.vy = 0
+            self.active = False
 
         dx = target_x - self.x
         dy = target_y - self.y
-        distance = math.hypot(dx, dy)
 
-        if distance != 0:
-            self.dx = dx / distance
-            self.dy = dy / distance
+        length = math.hypot(dx, dy)
+        if self.timeout == 0:
+            self.vx = (dx / length) * self.speed
+            self.vy = (dy / length) * self.speed
+            self.active = True
 
-        self.x += self.dx * self.speed
-        self.y += self.dy * self.speed
+        self.x += self.vx
+        self.y += self.vy
+        self.timeout += 1
 
     def draw(self, screen, camera_x=0, camera_y=0):
-        bullet_screen_x = self.x - camera_x
-        bullet_screen_y = self.y - camera_y
-        screen.blit(self.image, (bullet_screen_x, bullet_screen_y))
+        if self.active:
+            bullet_screen_x = self.x - camera_x
+            bullet_screen_y = self.y - camera_y
+            screen.blit(self.image, (bullet_screen_x, bullet_screen_y))
