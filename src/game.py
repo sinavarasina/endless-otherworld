@@ -48,6 +48,7 @@ class Game:
         self.second = 0
 
     def start(self):
+        self.bgm.play()
         while self.running:
             # Update camera based on Hero
             self.map_obj.update_camera(self.hero.x, self.hero.y)
@@ -84,6 +85,7 @@ class Game:
                 if keys[pygame.K_RETURN]:
                     self.main_menu = False
                     self.bgm.volume = 1
+                    self.bgm.play()
                 if keys[pygame.K_ESCAPE]:
                     self.running = False
                 self.clock.tick(60)
