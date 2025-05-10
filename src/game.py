@@ -4,6 +4,7 @@ import os
 from .character.hero import Hero
 from .character.enemy import Enemy
 from .maps.map import Map
+from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
 from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
@@ -25,13 +26,16 @@ class Game:
         self.hero = Hero(
             *self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT
         )
+
         # Clock
         self.clock = pygame.time.Clock()
         self.running = True
         self.pressed_keys = set()
 
-        # Set
         self.hero_WASD_animation_now = None
+
+        # initialize music
+        self.bgm = BGM()
 
         # main menu logic
         self.main_menu_screen = MainMenu(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
@@ -73,10 +77,13 @@ class Game:
                 self.map_obj.draw(self.screen)
                 self.hero.draw(self.screen, camera_x, camera_y)
                 self.hero.update()
+                self.bgm.volume = 0.2
+                self.bgm.play()
 
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RETURN]:
                     self.main_menu = False
+                    self.bgm.volume = 1
                 if keys[pygame.K_ESCAPE]:
                     self.running = False
                 self.clock.tick(60)
