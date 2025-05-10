@@ -34,7 +34,6 @@ class Game:
         self.hero_WASD_animation_now = None
 
         # main menu logic
-        # self.background_run_one_time = 0
         self.main_menu_screen = MainMenu(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         self.main_menu = True
 
@@ -61,17 +60,15 @@ class Game:
 
                 # mouse button down detection
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_down_position_x, mouse_down_position_y = (
-                        event.pos
-                    )  # click position
-                    mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right, 4=upscroll, 5=downscroll
+                    mouse_down_position_x, mouse_down_position_y = event.pos  # click position
+                    mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right
 
                     world_mouse_x = mouse_down_position_x + camera_x
                     world_mouse_y = mouse_down_position_y + camera_y
                     self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)
 
             # main menu looping
-            if self.main_menu == True:
+            if self.main_menu:
                 self.main_menu_screen.draw()
                 self.map_obj.draw(self.screen)
                 self.hero.draw(self.screen, camera_x, camera_y)
@@ -86,7 +83,6 @@ class Game:
                 continue  # Skip game logic
 
             self.tick += 1
-            print(self.tick)
             keys = pygame.key.get_pressed()
 
             # Move Hero + collision check
@@ -98,21 +94,42 @@ class Game:
             self.map_obj.draw(self.screen)
             self.hero.draw(self.screen, camera_x, camera_y)
 
-            # Update and draw all enemy in list
+            # Spawn enemies periodically
             if self.tick % 180 == 0:
-                #append the enemies to the list, we can append all of enemies in this list
                 self.enemies.append(Enemy(*self.map_obj.get_map_size(), self.hero.x, self.hero.y))
-            for enemy in self.enemies:
+            
+            # Update and draw all enemies
+            for enemy in self.enemies[:]:  
                 enemy.update()
                 enemy.updated(self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles())
                 enemy.draw(self.screen, camera_x, camera_y)
                 enemy.bullet.draw(self.screen, camera_x, camera_y)
 
-            self.hero.bullet.update()
-            self.hero.bullet.draw(self.screen, camera_x, camera_y)
+                # Check enemy bullet collision with hero
+                if enemy.bullet.active and enemy.bullet.check_collision(self.hero):
+                    #print("Hero hit!") #debug thingy
+                    enemy.bullet.active = False
+                    self.hero.hp -= 1
+
+                # fuckin' off hp 0's enemies
+                if enemy.hp <= 0:
+                    self.enemies.remove(enemy)
+
+            # Update hero bullet
+            if self.hero.bullet.active:
+                self.hero.bullet.update()
+                self.hero.bullet.draw(self.screen, camera_x, camera_y)
+                
+                # Check hero bullet collision with enemies
+                if self.hero.bullet.active:
+                    for enemy in self.enemies[:]:
+                        if self.hero.bullet.check_collision(enemy):
+                            #print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao
+                            self.hero.bullet.active = False
+                            enemy.hp -= 1
+                            break
 
             pygame.display.flip()
-
             self.clock.tick(60)
 
         pygame.quit()

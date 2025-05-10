@@ -4,13 +4,14 @@ import math
 from src.components.get_image import SpriteSheet
 from path_config import ASSET_DIR
 from .bullet_animation import BulletAnimation
-
+from src.logic.collition_logic import CollitionLogic
 
 class Bullet:
     def __init__(self, owner):
         self.owner = owner
-
-        # bullet logic variable
+        self.collision_logic = CollitionLogic()
+        
+        # bullet logic variables
         self.x = 0
         self.y = 0
         self.speed = 20
@@ -18,35 +19,13 @@ class Bullet:
         self.vx = 0
         self.vy = 0
         self.active = False
-
-        # animation
-        bullet_animation_path = os.path.join(
-            ASSET_DIR, "Bullet", "BlueShurikenAnimation.png"
-        )
-        sprite_sheet_image = pygame.image.load(bullet_animation_path).convert_alpha()
-        sprite_sheet = SpriteSheet(sprite_sheet_image)
-
-        self.animation = BulletAnimation(
-            sprite_sheet=sprite_sheet,
-            frame_width=32,
-            frame_height=24,
-            scale=2,
-            color_key=(0, 0, 0),
-            frame_count=6,
-            frame_delay=50,
-        )
-
-        self.bullet_screen_x = None
-        self.bullet_screen_y = None
+        self.animation = None  # just implememy it at child class, in order to not make this class complicated, kay?
+        self.image = None  # if it not animated then use image instead of animated bullet
 
     def shoot(self, target_x, target_y):
         if not self.active:
             self.x = self.owner.x + (self.owner.frame_width * self.owner.scale) // 2
             self.y = self.owner.y + (self.owner.frame_height * self.owner.scale) // 2
-
-            # debug thingy lol, just for research use, dont uncomment unless u know wht u do
-            # print(f"{self.owner.x}, {self.owner.y}")
-            # print(f"{self.x}, {self.y}")
 
             dx = target_x - self.x
             dy = target_y - self.y
@@ -68,22 +47,39 @@ class Bullet:
             self.y += self.vy
 
         self.timeout += 1
-
         if self.timeout > 20:
             self.active = False
             self.timeout = 0
 
-        self.animation.update()
+        if self.animation:
+            self.animation.update()
 
     def draw(self, screen, camera_x=0, camera_y=0):
-        self.bullet_screen_x = self.x - camera_x
-        self.bullet_screen_y = self.y - camera_y
         if self.active:
-            screen.blit(
-                self.animation.get_current_frame(),
-                (self.bullet_screen_x, self.bullet_screen_y),
-            )
+            bullet_screen_x = self.x - camera_x
+            bullet_screen_y = self.y - camera_y
+            if self.animation:
+                screen.blit(
+                    self.animation.get_current_frame(),
+                    (bullet_screen_x, bullet_screen_y),
+                )
+            elif self.image:
+                screen.blit(self.image, (bullet_screen_x, bullet_screen_y))
+    
+    def check_collision(self, target):
+        if not self.active:
+            return False
+        return self.collision_logic.collision_check(
+            (self.x, self.y),
+            self.mask,
+            (target.x, target.y),
+            target.mask,
+        )
 
     @property
     def mask(self):
-        return self.animation.get_mask()
+        if self.animation:
+            return self.animation.get_mask()
+        elif self.image:
+            return pygame.mask.from_surface(self.image)
+        return None

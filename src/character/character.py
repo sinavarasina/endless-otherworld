@@ -22,6 +22,7 @@ class Character:
         self.speed = speed
         self.x = map_width // 2
         self.y = map_height // 2
+        self.hp = 1000 # untuk testing
 
         self.assets_path = assets_path
 

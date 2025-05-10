@@ -1,5 +1,5 @@
 from .character import Character
-from .bullets.Enemy_Bullets.bullet import Bullet
+from .bullets.Enemy_Bullets.enemy_bullet_A import EnemyBulletA  # Ubah import ke class turunan
 import math
 from path_config import ASSET_DIR
 import os
@@ -9,11 +9,17 @@ class Enemy(Character):
     def __init__(self, map_width, map_height, hero_x, hero_y):
         animation_path = os.path.join(ASSET_DIR, "Enemies", "CasperSprites.png")
 
-        super().__init__(animation_path, 48, 48, (0, 0, 0), 50, 10, 2.5, map_width, map_height)
+        super().__init__(
+            animation_path, 
+            48, 48, 
+            (0, 0, 0), 
+            50, 10, 2.5, 
+            map_width, map_height
+        )
         self.speed = 2
-        self.bullet = Bullet(owner=self)
+        self.bullet = EnemyBulletA(owner=self)
+        self.hp = 1 # for testing, i use 1 hp
         
-        #random spawn logic
         self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
         self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])
 
@@ -34,6 +40,7 @@ class Enemy(Character):
             (target_x - MAP_WIDTH, target_y + MAP_HEIGHT),
             (target_x - MAP_WIDTH, target_y - MAP_HEIGHT)   
         ]
+        
         closest_target = None
         min_distance = float('inf')
 
@@ -66,3 +73,7 @@ class Enemy(Character):
                     break
                 
         self.bullet.update(target_x, target_y)
+
+    def draw(self, screen, camera_x=0, camera_y=0):
+        super().draw(screen, camera_x, camera_y)
+        self.bullet.draw(screen, camera_x, camera_y)
