@@ -51,23 +51,6 @@ class Character:
         self.frame_timer = 0
         self.mask = pygame.mask.from_surface(self.frames[0])
 
-    # def move(self, dx, dy, obstacle_list=None):
-    #     new_x = self.x + dx * self.speed
-    #     new_y = self.y + dy * self.speed
-
-    #     old_x = self.x
-    #     old_y = self.y
-
-    #     self.x = new_x
-    #     self.y = new_y
-
-    #     if obstacle_list:
-    #         for obstacle in obstacle_list:
-    #             if obstacle.obstacle_collision(self):
-    #                 self.x = old_x
-    #                 self.y = old_y
-    #                 break
-
     def move(self, dx, dy, obstacle_list=None):
         MAP_WIDTH = 10000
         MAP_HEIGHT = 10000
