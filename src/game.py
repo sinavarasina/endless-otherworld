@@ -25,8 +25,6 @@ class Game:
         self.hero = Hero(
             *self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT
         )
-        self.enemy = Enemy(*self.map_obj.get_map_size())
-
         # Clock
         self.clock = pygame.time.Clock()
         self.running = True
@@ -40,6 +38,12 @@ class Game:
         self.main_menu_screen = MainMenu(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         self.main_menu = True
 
+        # enemy object list
+        self.enemies = []
+        # time logic (in second)
+        self.tick = 0
+        self.second = 0
+
     def start(self):
         while self.running:
             # Update camera based on Hero
@@ -52,12 +56,6 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
 
-                # mouse detection
-                # if event.type == pygame.MOUSEMOTION:
-                #     mouse_now_x = event.pos[0]  # x mouse position now
-                #     mouse_now_y = event.pos[1]  # y mouse position now
-                #     rel = event.rel  # position change (dx, dy)
-
                 # WASD keyboard input detection
                 Detect_WASD(self, ASSET_DIR)
 
@@ -67,14 +65,6 @@ class Game:
                         event.pos
                     )  # click position
                     mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right, 4=upscroll, 5=downscroll
-
-                    ################
-                    # debug thingy #
-                    ################
-
-                    # print(
-                    #    f"Mouse diklik di posisi ({mouse_down_position_x}, {mouse_down_position_y}) dengan tombol {mouse_button_down}"
-                    # )
 
                     world_mouse_x = mouse_down_position_x + camera_x
                     world_mouse_y = mouse_down_position_y + camera_y
@@ -95,28 +85,31 @@ class Game:
                 self.clock.tick(60)
                 continue  # Skip game logic
 
+            self.tick += 1
+            print(self.tick)
             keys = pygame.key.get_pressed()
 
             # Move Hero + collision check
             self.hero.handle_input(keys, obstacle_list=self.map_obj.get_obstacles())
             self.hero.update()
-
-            self.enemy.update()
-
-            # Enemy update (chase Hero)
-            self.enemy.updated(
-                self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles()
-            )
+          
             # Draw everything
             self.screen.fill((0, 0, 0))
             self.map_obj.draw(self.screen)
-
             self.hero.draw(self.screen, camera_x, camera_y)
-            self.enemy.draw(self.screen, camera_x, camera_y)
+
+            # Update and draw all enemy in list
+            if self.tick % 180 == 0:
+                #append the enemies to the list, we can append all of enemies in this list
+                self.enemies.append(Enemy(*self.map_obj.get_map_size(), self.hero.x, self.hero.y))
+            for enemy in self.enemies:
+                enemy.update()
+                enemy.updated(self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles())
+                enemy.draw(self.screen, camera_x, camera_y)
+                enemy.bullet.draw(self.screen, camera_x, camera_y)
 
             self.hero.bullet.update()
             self.hero.bullet.draw(self.screen, camera_x, camera_y)
-            self.enemy.bullet.draw(self.screen, camera_x, camera_y)
 
             pygame.display.flip()
 
