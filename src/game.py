@@ -8,6 +8,7 @@ from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
 from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
+from src.logic.enemies_spawn_time import Enemies_Spawn_Time
 
 
 class Game:
@@ -104,9 +105,8 @@ class Game:
             self.hero.draw(self.screen, camera_x, camera_y)
 
             # Spawn enemies periodically
-            if self.tick % 180 == 0:
-                self.enemies.append(Enemy(*self.map_obj.get_map_size(), self.hero.x, self.hero.y))
-            
+            Enemies_Spawn_Time(self)
+
             # Update and draw all enemies
             for enemy in self.enemies[:]:  
                 enemy.update()
@@ -120,7 +120,7 @@ class Game:
                     enemy.bullet.active = False
                     self.hero.hp -= 1
 
-                # fuckin' off hp 0's enemies
+                # fuckin' off hp 0's enemies. #from faiq: lol this comment is hillarious
                 if enemy.hp <= 0:
                     self.enemies.remove(enemy)
 
