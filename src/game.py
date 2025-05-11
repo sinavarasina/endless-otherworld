@@ -10,6 +10,9 @@ from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
 from src.logic.enemies_spawn_time import Enemies_Spawn_Time
 
+# HUD
+from src.HUD.time_HUD import Time_HUD
+
 
 class Game:
     def __init__(self):
@@ -50,6 +53,9 @@ class Game:
 
     def start(self):
         self.bgm.play()
+        # Font for second display
+        font = pygame.font.SysFont(None, 36)
+
         while self.running:
             # Update camera based on Hero
             self.map_obj.update_camera(self.hero.x, self.hero.y)
@@ -138,6 +144,9 @@ class Game:
                             enemy.hp -= 1
                             break
 
+            # Render time in right bottom
+            Time_HUD(self, font)
+            
             pygame.display.flip()
             self.clock.tick(60)
 
