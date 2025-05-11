@@ -1,13 +1,13 @@
-from .character import Character
+from .hero_base import Hero_Base
 import pygame
 import math
 import os
-from .bullets.Hero_Bullets.hero_bullet_A import Hero_Bullet_A
+from ..bullets.Hero_Bullets.hero_bullet_A import Hero_Bullet_A
 from src.components.get_image import SpriteSheet
 from path_config import ASSET_DIR
 
 
-class Hero(Character):
+class Hero(Hero_Base):
     def __init__(self, map_width, map_height, Screen_Width, Screen_Height):
         self.animation_path = os.path.join(ASSET_DIR, "Hero", "death_normal_down.png")
         super().__init__(
@@ -39,3 +39,25 @@ class Hero(Character):
 
     def handle_mouse_input(self, x, y):
         self.bullet.shoot(x, y)
+
+    def move(self, dx, dy, obstacle_list=None):
+        MAP_WIDTH = 10000
+        MAP_HEIGHT = 10000
+
+        new_x = self.x + dx * self.speed
+        new_y = self.y + dy * self.speed
+
+        new_x %= MAP_WIDTH
+        new_y %= MAP_HEIGHT
+
+        old_x = self.x
+        old_y = self.y
+
+        self.x = new_x
+        self.y = new_y
+        if obstacle_list:
+            for obstacle in obstacle_list:
+                if obstacle.obstacle_collision(self):
+                    self.x = old_x
+                    self.y = old_y
+                    break
