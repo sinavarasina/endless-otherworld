@@ -1,11 +1,11 @@
-from .character import Character
-from .bullets.Enemy_Bullets.enemy_bullet_A import EnemyBulletA  # Ubah import ke class turunan
+from .enemy_base import Enemy_Base
+from ..bullets.Enemy_Bullets.enemy_bullet_A import EnemyBulletA
 import math
 from path_config import ASSET_DIR
 import os
 import random
 
-class Enemy(Character):
+class Common_Enemy_Ghost(Enemy_Base):
     def __init__(self, map_width, map_height, hero_x, hero_y):
         animation_path = os.path.join(ASSET_DIR, "Enemies", "CasperSprites.png")
 
@@ -23,7 +23,7 @@ class Enemy(Character):
         self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
         self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])
 
-    def updated(self, target_x, target_y, obstacle_list=None):
+    def update(self, target_x, target_y, obstacle_list=None):
         MAP_WIDTH = 10000
         MAP_HEIGHT = 10000
 

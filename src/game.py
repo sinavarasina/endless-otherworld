@@ -1,8 +1,7 @@
 import pygame
 import sys
 import os
-from .character.hero import Hero
-from .character.enemy import Enemy
+from .character.hero.hero import Hero
 from .maps.map import Map
 from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
@@ -10,6 +9,8 @@ from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
 from src.logic.enemies_spawn_time import Enemies_Spawn_Time
 
+# main_menu
+from src.main_menu.main_menu_looping_check import Main_Menu_Looping_Check
 # HUD
 from src.HUD.time_HUD import Time_HUD
 
@@ -79,24 +80,12 @@ class Game:
                     world_mouse_y = mouse_down_position_y + camera_y
                     self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)
 
-            # main menu looping
-            if self.main_menu:
-                self.main_menu_screen.draw()
-                self.map_obj.draw(self.screen)
-                self.hero.draw(self.screen, camera_x, camera_y)
-                self.hero.update()
-                self.bgm.volume = 0.2
-                self.bgm.play()
-
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_RETURN]:
-                    self.main_menu = False
-                    self.bgm.volume = 1
-                    self.bgm.play()
-                if keys[pygame.K_ESCAPE]:
-                    self.running = False
-                self.clock.tick(60)
-                continue  # Skip game logic
+            #####################
+            # main menu looping #
+            #####################
+            if Main_Menu_Looping_Check(self, camera_x, camera_y):
+                continue
+            ####################
 
             self.tick += 1
             keys = pygame.key.get_pressed()
@@ -110,13 +99,16 @@ class Game:
             self.map_obj.draw(self.screen)
             self.hero.draw(self.screen, camera_x, camera_y)
 
-            # Spawn enemies periodically
+            ##############################
+            # Spawn enemies periodically #
+            ##############################
             Enemies_Spawn_Time(self)
+            ##############################
 
             # Update and draw all enemies
             for enemy in self.enemies[:]:  
-                enemy.update()
-                enemy.updated(self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles())
+                enemy.update_animation()
+                enemy.update(self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles())
                 enemy.draw(self.screen, camera_x, camera_y)
                 enemy.bullet.draw(self.screen, camera_x, camera_y)
 
@@ -139,13 +131,17 @@ class Game:
                 if self.hero.bullet.active:
                     for enemy in self.enemies[:]:
                         if self.hero.bullet.check_collision(enemy):
-                            #print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao
+                            #print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             self.hero.bullet.active = False
                             enemy.hp -= 1
                             break
-
+            
+            ###########
+            #   HUD   #
+            ###########
             # Render time in right bottom
             Time_HUD(self, font)
+            ###########
             
             pygame.display.flip()
             self.clock.tick(60)
