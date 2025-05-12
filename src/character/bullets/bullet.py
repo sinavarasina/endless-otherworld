@@ -6,11 +6,12 @@ from path_config import ASSET_DIR
 from .bullet_animation import BulletAnimation
 from src.logic.collition_logic import CollitionLogic
 
+
 class Bullet:
     def __init__(self, owner):
         self.owner = owner
         self.collision_logic = CollitionLogic()
-        
+
         # bullet logic variables
         self.x = 0
         self.y = 0
@@ -20,7 +21,9 @@ class Bullet:
         self.vy = 0
         self.active = False
         self.animation = None  # just implememy it at child class, in order to not make this class complicated, kay?
-        self.image = None  # if it not animated then use image instead of animated bullet
+        self.image = (
+            None  # if it not animated then use image instead of animated bullet
+        )
 
     def shoot(self, target_x, target_y):
         if not self.active:
@@ -47,7 +50,7 @@ class Bullet:
             self.y += self.vy
 
         self.timeout += 1
-        if self.timeout > 20:
+        if self.timeout > 40:
             self.active = False
             self.timeout = 0
 
@@ -65,7 +68,7 @@ class Bullet:
                 )
             elif self.image:
                 screen.blit(self.image, (bullet_screen_x, bullet_screen_y))
-    
+
     def check_collision(self, target):
         if not self.active:
             return False

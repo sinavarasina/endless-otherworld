@@ -13,7 +13,6 @@ class EnemyGenerator:
         self.enemies = enemies_list
         self.spawn_interval = spawn_interval
         self.tick = 0
-        self.second = 0
 
     def generate(self):
         map_width, map_height = self.map_obj.get_map_size()
@@ -26,4 +25,3 @@ class EnemyGenerator:
         if self.tick % self.spawn_interval == 0:
             new_enemy = self.generate()
             self.enemies.append(new_enemy)
-            self.second += 1

@@ -141,6 +141,8 @@ class Game:
             Xp_HUD(self, font)
             ###########
 
+            if self.tick % 60 == 0:
+                self.second += 1
             pygame.display.flip()
             self.clock.tick(60)
 
