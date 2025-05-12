@@ -58,8 +58,8 @@ class Control:
 
         full_path = os.path.join(self.asset_dir, "Hero", new_animation)
 
-        if self.game.hero_WASD_animation_now != full_path:
-            self.game.hero_WASD_animation_now = full_path
+        if self.hero_WASD_animation_now != full_path:
+            self.hero_WASD_animation_now = full_path
             self.game.hero.set_animation(full_path)
 
     def handle_mouse_input(self, event, camera_x, camera_y):

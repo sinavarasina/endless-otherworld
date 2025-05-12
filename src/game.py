@@ -9,11 +9,6 @@ from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
-
-# main_menu
-from src.main_menu.main_menu_looping_check import Main_Menu_Looping_Check
-
-# HUD
 from src.HUD.time_HUD import Time_HUD
 
 
@@ -44,7 +39,6 @@ class Game:
         self.running = True
         self.pressed_keys = set()
 
-        self.hero_WASD_animation_now = None
         self.control = Control(self, ASSET_DIR)
 
         # initialize music
@@ -79,12 +73,8 @@ class Game:
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
 
-            #####################
-            # main menu looping #
-            #####################
-            if Main_Menu_Looping_Check(self, camera_x, camera_y):
+            if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
-            ####################
 
             self.tick += 1
             keys = pygame.key.get_pressed()
