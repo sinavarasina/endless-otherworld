@@ -23,7 +23,7 @@ class EnemyBulletDemonz(Bullet):
             sprite_sheet=sprite_sheet,
             frame_width=32,
             frame_height=32,
-            scale=1,
+            scale=2,
             color_key=(0, 0, 0),
             frame_count=4,
             frame_delay=10,
