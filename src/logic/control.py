@@ -6,6 +6,7 @@ class Control:
     def __init__(self, game, asset_dir):
         self.game = game
         self.asset_dir = asset_dir
+        self.hero_WASD_animation_now = None
 
     def detect_WASD(self):
         if self.game.main_menu:
