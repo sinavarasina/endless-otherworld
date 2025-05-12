@@ -8,6 +8,7 @@ from path_config import ASSET_DIR
 from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
 from src.logic.enemy_generator import EnemyGenerator
+from src.logic.control import Control
 
 # main_menu
 from src.main_menu.main_menu_looping_check import Main_Menu_Looping_Check
@@ -44,6 +45,7 @@ class Game:
         self.pressed_keys = set()
 
         self.hero_WASD_animation_now = None
+        self.control = Control(self, ASSET_DIR)
 
         # initialize music
         self.bgm = BGM()
@@ -74,21 +76,8 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
 
-                # WASD keyboard input detection
-                Detect_WASD(self, ASSET_DIR)
-
-                # mouse button down detection
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_down_position_x, mouse_down_position_y = (
-                        event.pos
-                    )  # click position
-                    mouse_button_down = (
-                        event.button
-                    )  # mouse button: 1=left, 2=middle, 3=right
-
-                    world_mouse_x = mouse_down_position_x + camera_x
-                    world_mouse_y = mouse_down_position_y + camera_y
-                    self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)
+                self.control.detect_WASD()
+                self.control.handle_mouse_input(event, camera_x, camera_y)
 
             #####################
             # main menu looping #
