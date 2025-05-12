@@ -1,5 +1,5 @@
+from ..bullets.Enemy_Bullets.enemy_bullet_demonz import EnemyBulletDemonz
 from .enemy_base import Enemy_Base
-from ..bullets.Enemy_Bullets.enemy_bullet_A import EnemyBulletA
 import math
 from path_config import ASSET_DIR
 import os
@@ -14,7 +14,7 @@ class Common_Enemy_Demonz(Enemy_Base):
             animation_path, 24, 24, (0, 0, 0), 50, 10, 2.5, map_width, map_height
         )
         self.speed = 2
-        self.bullet = EnemyBulletA(owner=self)
+        self.bullet = EnemyBulletDemonz(owner=self)
         self.hp = 1  # for testing, i use 1 hp
 
         self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
