@@ -7,14 +7,12 @@ from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
 from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
-from src.logic.enemies_spawn_time import Enemies_Spawn_Time
-
-# main_menu
-from src.main_menu.main_menu_looping_check import Main_Menu_Looping_Check
-# HUD
+from src.logic.enemy_generator import EnemyGenerator
+from src.logic.control import Control
 from src.HUD.time_HUD import Time_HUD
 from src.HUD.hero_hp_HUD import Hero_HP_HUD
 from src.HUD.xp_HUD import Xp_HUD
+
 
 class Game:
     def __init__(self):
@@ -33,22 +31,27 @@ class Game:
             *self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT
         )
 
+        # enemy object list
+        self.enemies = []
+
+        self.enemy_generator = EnemyGenerator(self.map_obj, self.hero, self.enemies)
+
         # Clock
         self.clock = pygame.time.Clock()
         self.running = True
         self.pressed_keys = set()
 
-        self.hero_WASD_animation_now = None
+        self.control = Control(self, ASSET_DIR)
 
         # initialize music
         self.bgm = BGM()
 
         # main menu logic
-        self.main_menu_screen = MainMenu(self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.main_menu_screen = MainMenu(
+            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT
+        )
         self.main_menu = True
 
-        # enemy object list
-        self.enemies = []
         # time logic (in second)
         self.tick = 0
         self.second = 0
@@ -71,29 +74,15 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
 
-                    # Deteksi tombol ESC
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.main_menu = True
 
-                # WASD keyboard input detection
-                Detect_WASD(self, ASSET_DIR)
+                self.control.detect_WASD()
+                self.control.handle_mouse_input(event, camera_x, camera_y)
 
-                # mouse button down detection
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_down_position_x, mouse_down_position_y = event.pos  # click position
-                    mouse_button_down = event.button  # mouse button: 1=left, 2=middle, 3=right
-
-                    world_mouse_x = mouse_down_position_x + camera_x
-                    world_mouse_y = mouse_down_position_y + camera_y
-                    self.hero.handle_mouse_input(world_mouse_x, world_mouse_y)
-
-            #####################
-            # main menu looping #
-            #####################
-            if Main_Menu_Looping_Check(self, camera_x, camera_y):
+            if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
-            ####################
 
             self.tick += 1
             keys = pygame.key.get_pressed()
@@ -101,28 +90,26 @@ class Game:
             # Move Hero + collision check
             self.hero.handle_input(keys, obstacle_list=self.map_obj.get_obstacles())
             self.hero.update()
-          
+
             # Draw everything
             self.screen.fill((0, 0, 0))
             self.map_obj.draw(self.screen)
             self.hero.draw(self.screen, camera_x, camera_y)
 
-            ##############################
-            # Spawn enemies periodically #
-            ##############################
-            Enemies_Spawn_Time(self)
-            ##############################
+            self.enemy_generator.update()
 
             # Update and draw all enemies
-            for enemy in self.enemies[:]:  
+            for enemy in self.enemies[:]:
                 enemy.update_animation()
-                enemy.update(self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles())
+                enemy.update(
+                    self.hero.x, self.hero.y, obstacle_list=self.map_obj.get_obstacles()
+                )
                 enemy.draw(self.screen, camera_x, camera_y)
                 enemy.bullet.draw(self.screen, camera_x, camera_y)
 
                 # Check enemy bullet collision with hero
                 if enemy.bullet.active and enemy.bullet.check_collision(self.hero):
-                    #print("Hero hit!") #debug thingy
+                    # print("Hero hit!") #debug thingy
                     enemy.bullet.active = False
                     self.hero.hp -= 10
 
@@ -134,17 +121,17 @@ class Game:
             if self.hero.bullet.active:
                 self.hero.bullet.update()
                 self.hero.bullet.draw(self.screen, camera_x, camera_y)
-                
+
                 # Check hero bullet collision with enemies
                 if self.hero.bullet.active:
                     for enemy in self.enemies[:]:
                         if self.hero.bullet.check_collision(enemy):
-                            print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
+                            # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
                             self.xp += 1
                             break
-            
+
             ###########
             #   HUD   #
             ###########
@@ -153,7 +140,7 @@ class Game:
             Hero_HP_HUD(self, font)
             Xp_HUD(self, font)
             ###########
-            
+
             pygame.display.flip()
             self.clock.tick(60)
 
