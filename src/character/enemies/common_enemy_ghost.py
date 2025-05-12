@@ -18,7 +18,7 @@ class Common_Enemy_Ghost(Enemy_Base):
         )
         self.speed = 2
         self.bullet = EnemyBulletA(owner=self)
-        self.hp = 1 # for testing, i use 1 hp
+        self.hp = 100 # for testing, i use 1 hp
         
         self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
         self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])

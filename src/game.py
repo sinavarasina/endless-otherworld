@@ -10,6 +10,8 @@ from src.main_menu.main_menu import MainMenu
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
 from src.HUD.time_HUD import Time_HUD
+from src.HUD.hero_hp_HUD import Hero_HP_HUD
+from src.HUD.xp_HUD import Xp_HUD
 
 
 class Game:
@@ -54,6 +56,8 @@ class Game:
         self.tick = 0
         self.second = 0
 
+        self.xp = 0
+
     def start(self):
         self.bgm.play()
         # Font for second display
@@ -69,6 +73,10 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.main_menu = True
 
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
@@ -103,7 +111,7 @@ class Game:
                 if enemy.bullet.active and enemy.bullet.check_collision(self.hero):
                     # print("Hero hit!") #debug thingy
                     enemy.bullet.active = False
-                    self.hero.hp -= 1
+                    self.hero.hp -= 10
 
                 # fuckin' off hp 0's enemies. #from faiq: lol this comment is hillarious
                 if enemy.hp <= 0:
@@ -119,8 +127,9 @@ class Game:
                     for enemy in self.enemies[:]:
                         if self.hero.bullet.check_collision(enemy):
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
-                            self.hero.bullet.active = False
-                            enemy.hp -= 1
+                            # self.hero.bullet.active = False
+                            enemy.hp -= 25
+                            self.xp += 1
                             break
 
             ###########
@@ -128,6 +137,8 @@ class Game:
             ###########
             # Render time in right bottom
             Time_HUD(self, font)
+            Hero_HP_HUD(self, font)
+            Xp_HUD(self, font)
             ###########
 
             pygame.display.flip()
