@@ -25,7 +25,7 @@ class EnemyBulletFlamez(Bullet):
             frame_height=32,
             scale=2,
             color_key=(0, 0, 0),
-            frame_count=6,
+            frame_count=4,
             frame_delay=10,
         )
 

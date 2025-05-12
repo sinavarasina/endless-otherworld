@@ -13,7 +13,7 @@ class Map:
         # Load map image
         current_dir = os.path.dirname(os.path.abspath(__file__))
         asset_dir = os.path.join(current_dir, "..", "..", "assets", "images")
-        map_image_path = os.path.join(asset_dir, "Map", "Ground", "grasspattern.png")
+        map_image_path = os.path.join(asset_dir, "Map", "Ground", "map.png")
 
         try:
             self.big_map_image = pygame.image.load(map_image_path).convert()
