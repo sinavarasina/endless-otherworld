@@ -28,7 +28,7 @@ class Common_Enemy_Ghost(Enemy_Base):
         MAP_WIDTH = 10000
         MAP_HEIGHT = 10000
 
-        old_x, old_y = self.x, self.y
+        # old_x, old_y = self.x, self.y
 
         target_positions = [
             (target_x, target_y),
@@ -67,11 +67,11 @@ class Common_Enemy_Ghost(Enemy_Base):
                 self.x %= MAP_WIDTH
                 self.y %= MAP_HEIGHT
 
-        if obstacle_list:
-            for obstacle in obstacle_list:
-                if obstacle.obstacle_collision(self):
-                    self.x, self.y = old_x, old_y
-                    break
+        # if obstacle_list:
+        #    for obstacle in obstacle_list:
+        #        if obstacle.obstacle_collision(self):
+        #            self.x, self.y = old_x, old_y
+        #            break
 
         self.bullet.update(target_x, target_y)
 
