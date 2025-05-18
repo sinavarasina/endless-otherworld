@@ -12,6 +12,7 @@ from src.logic.control import Control
 from src.HUD.time_HUD import Time_HUD
 from src.HUD.hero_hp_HUD import Hero_HP_HUD
 from src.HUD.xp_HUD import Xp_HUD
+from src.HUD.leveling_bar_HUD import Leveling_Bar_HUD
 
 
 class Game:
@@ -57,8 +58,6 @@ class Game:
         # time logic (in second)
         self.tick = 0
         self.second = 0
-
-        self.xp = 0
 
     def start(self):
         self.bgm.play()
@@ -132,7 +131,7 @@ class Game:
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
-                            self.xp += 1
+                            self.hero.xp += 1
                             break
 
             ###########
@@ -142,6 +141,7 @@ class Game:
             Time_HUD(self, font)
             Hero_HP_HUD(self, font)
             Xp_HUD(self, font)
+            Leveling_Bar_HUD(self, font)
             ###########
 
             # if hero die/hp < 1

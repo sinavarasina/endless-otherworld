@@ -21,7 +21,7 @@ class Hero(Hero_Base):
             map_height,
             speed=5,
         )
-
+        self.xp = 0
         self.bullet = Hero_Bullet_A(owner=self)
 
     def handle_input(self, keys, obstacle_list=None):
