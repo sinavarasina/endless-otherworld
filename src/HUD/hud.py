@@ -91,6 +91,7 @@ class HUD:
     #
     #
     #    I THINK TO BE BETTER LIKE BELLOW BUT IF YOU A FE (FLAT EARTHER) THINK THAT WHAT I DO IS HORRIBLE, JUST UNCOMMENT IT
+    #    I THINK CLEARER is better
 
     def _draw_exp(self):
         # Draw EXP text aligned with level text
@@ -104,9 +105,7 @@ class HUD:
         )
         level_text_width = level_text.get_width()
 
-        # Calculate positions with consistent baseline
-        text_y = self.game.SCREEN_HEIGHT - 30  # Same y-position for both texts
-
+        text_y = self.game.SCREEN_HEIGHT - 30
         # Draw level text (left-aligned)
         self.game.screen.blit(level_text, (30, text_y))
 
