@@ -5,7 +5,6 @@ from .maps.map import Map
 from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
 from src.main_menu.main_menu import MainMenu
-from src.main_menu.game_over_menu import GameOverMenu
 
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
@@ -45,11 +44,10 @@ class Game:
 
         # main menu logic
         self.main_menu_screen = MainMenu(
-            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT
+            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self
         )
         self.main_menu = True
 
-        self.game_over_menu = GameOverMenu(self)
         self.hud = HUD(self)
 
         # time logic (in second)
@@ -134,15 +132,14 @@ class Game:
 
             # if hero die/hp < 1
             if self.hero.hp < 1:
-                self.game_over_menu.reboot_game()
+                self.main_menu_screen.gameover.reboot_game()
 
             if self.tick % 60 == 0:
                 self.second += 1
             pygame.display.flip()
             self.clock.tick(60)
 
-
-            #debug
+            # debug
             # print(f"level: {self.hero.level}, level bar: {self.hero.level_bar}")
 
         pygame.quit()

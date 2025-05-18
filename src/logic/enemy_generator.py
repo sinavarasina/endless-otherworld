@@ -19,6 +19,8 @@ class EnemyGenerator:
         self.spawn_interval = spawn_interval
         self.tick = 0
 
+    ##################################################################################################### Protected
+
     def __is_valid(self, enemy):
         return not any(
             obstacle.obstacle_collision(enemy) for obstacle in self.obstacle_list
@@ -36,6 +38,8 @@ class EnemyGenerator:
                 return temp_enemy
 
         return enemy_class(spawn_x, spawn_y, map_width, map_height)
+
+    ###################################################################################################### Public
 
     def generate(self):
         map_width, map_height = self.map_obj.get_map_size()

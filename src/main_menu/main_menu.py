@@ -1,10 +1,13 @@
 import pygame
+from .game_over_menu import GameOverMenu
+
 
 class MainMenu:
-    def __init__(self, screen, screen_width, screen_height):
+    def __init__(self, screen, screen_width, screen_height, game):
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
+        self.gameover = GameOverMenu(game)
 
     def draw(self):
         overlay = pygame.Surface(
@@ -57,4 +60,3 @@ class MainMenu:
             game.clock.tick(60)
             return True
         return False
-
