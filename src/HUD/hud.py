@@ -72,9 +72,8 @@ class HUD:
         border_color = (255, 255, 255)
         fill_color = (0, 255, 0)
 
-        # using hp, wtf?????????
-        level_percentage = max(0, min(self.game.hero.hp, 100))
-        current_width = int((level_percentage / 100) * bar_width)
+        level_percentage = max(0, min(self.game.hero.level_bar, self.game.hero.level * 20))
+        current_width = int((level_percentage / (self.game.hero.level * 20)) * bar_width)
 
         # Draw leveling bar
         pygame.draw.rect(
@@ -86,6 +85,6 @@ class HUD:
 
         # Draw level text
         level_text = self.small_font.render(
-            f"Level: {self.game.hero.hp}", True, (255, 255, 255)
+            f"Level: {self.game.hero.level}", True, (255, 255, 255)
         )
         self.game.screen.blit(level_text, (640, 1030))  # Below the bar
