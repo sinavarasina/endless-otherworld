@@ -1,8 +1,8 @@
 import pygame
 
 def Leveling_Bar_HUD(self, font):
-    bar_position = (990, 1070)
-    bar_width = 200
+    bar_position = (640, 1000)
+    bar_width = 700
     bar_height = 20 
     border_color = (255, 255, 255)
     fill_color = (0, 255, 0)
