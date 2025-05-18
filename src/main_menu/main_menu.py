@@ -1,6 +1,5 @@
 import pygame
 
-
 class MainMenu:
     def __init__(self, screen, screen_width, screen_height):
         self.screen = screen
@@ -52,6 +51,7 @@ class MainMenu:
                 game.main_menu = False
                 game.bgm.volume = 1
                 game.bgm.play()
+                game.hero.hp = 100
             if keys[pygame.K_ESCAPE]:
                 game.running = False
             game.clock.tick(60)

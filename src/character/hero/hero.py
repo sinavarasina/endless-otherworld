@@ -3,12 +3,11 @@ import pygame
 import math
 import os
 from ..bullets.Hero_Bullets.hero_bullet_A import Hero_Bullet_A
-from src.components.get_image import SpriteSheet
 from path_config import ASSET_DIR
 
 
 class Hero(Hero_Base):
-    def __init__(self, map_width, map_height, Screen_Width, Screen_Height):
+    def __init__(self, map_width, map_height):
         self.animation_path = os.path.join(ASSET_DIR, "Hero", "death_normal_down.png")
         super().__init__(
             self.animation_path,
