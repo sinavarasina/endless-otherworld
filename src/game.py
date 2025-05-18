@@ -5,10 +5,8 @@ from .maps.map import Map
 from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
 from src.main_menu.main_menu import MainMenu
-
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
-from src.logic.leveling import Leveling
 from src.HUD.hud import HUD
 
 
@@ -110,6 +108,8 @@ class Game:
 
                 # fuckin' off hp 0's enemies. #from faiq: lol this comment is hillarious
                 if enemy.hp <= 0:
+                    self.hero.exp += enemy.killed_exp
+                    self.hero.level_update()
                     self.enemies.remove(enemy)
 
             # Update hero bullet
@@ -124,8 +124,8 @@ class Game:
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
-                            self.hero.exp += 1
-                            Leveling(self)
+                            # self.hero.exp += 1  # faiq are ya crazy to set exp plus every shoot ya make
+                            # Leveling(self)
                             break
             # render da hood
             self.hud.draw()

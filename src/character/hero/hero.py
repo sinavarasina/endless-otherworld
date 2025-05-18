@@ -62,3 +62,9 @@ class Hero(Hero_Base):
                     self.x = old_x
                     self.y = old_y
                     break
+
+    def level_update(self):
+        self.level_bar += 1 / self.level
+        if self.level_bar > self.level * 20:
+            self.level += 1
+            self.level_bar = 0

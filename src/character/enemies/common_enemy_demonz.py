@@ -15,7 +15,8 @@ class Common_Enemy_Demonz(Enemy_Base):
         )
         self.speed = 2
         self.bullet = EnemyBulletDemonz(owner=self)
-        self.hp = 1  # for testing, i use 1 hp
+        self.hp = 80  # for testing, i use 1 hp
+        self.killed_exp = 9
 
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen
