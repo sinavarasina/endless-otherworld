@@ -9,6 +9,7 @@ from src.main_menu.game_over_menu import GameOverMenu
 
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
+from src.logic.leveling import Leveling
 from src.HUD.hud import HUD
 
 
@@ -49,7 +50,6 @@ class Game:
         self.main_menu = True
 
         self.game_over_menu = GameOverMenu(self)
-
         self.hud = HUD(self)
 
         # time logic (in second)
@@ -58,8 +58,6 @@ class Game:
 
     def start(self):
         self.bgm.play()
-        # Font for second display
-        font = pygame.font.SysFont(None, 36)
 
         while self.running:
             # Update camera based on Hero
@@ -129,6 +127,7 @@ class Game:
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
                             self.hero.exp += 1
+                            Leveling(self)
                             break
             # render da hood
             self.hud.draw()
@@ -141,6 +140,10 @@ class Game:
                 self.second += 1
             pygame.display.flip()
             self.clock.tick(60)
+
+
+            #debug
+            # print(f"level: {self.hero.level}, level bar: {self.hero.level_bar}")
 
         pygame.quit()
         sys.exit()

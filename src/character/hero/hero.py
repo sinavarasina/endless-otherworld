@@ -21,6 +21,8 @@ class Hero(Hero_Base):
             map_height,
             speed=5,
         )
+        self.level = 1
+        self.level_bar = 0
         self.exp = 0
         self.bullet = Hero_Bullet_A(owner=self)
 
