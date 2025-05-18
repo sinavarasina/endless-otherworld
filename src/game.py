@@ -1,17 +1,18 @@
 import pygame
 import sys
-import os
 from .character.hero.hero import Hero
 from .maps.map import Map
 from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
-from src.logic.hero_input import Detect_WASD
 from src.main_menu.main_menu import MainMenu
+from src.main_menu.game_over_menu import GameOverMenu
+
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
 from src.HUD.time_HUD import Time_HUD
 from src.HUD.hero_hp_HUD import Hero_HP_HUD
 from src.HUD.xp_HUD import Xp_HUD
+from src.HUD.leveling_bar_HUD import Leveling_Bar_HUD
 
 
 class Game:
@@ -28,7 +29,7 @@ class Game:
 
         # Load Hero and Enemy
         self.hero = Hero(
-            *self.map_obj.get_map_size(), self.SCREEN_WIDTH, self.SCREEN_HEIGHT
+            *self.map_obj.get_map_size()
         )
 
         # enemy object list
@@ -52,11 +53,11 @@ class Game:
         )
         self.main_menu = True
 
+        self.game_over_menu = GameOverMenu(self)
+
         # time logic (in second)
         self.tick = 0
         self.second = 0
-
-        self.xp = 0
 
     def start(self):
         self.bgm.play()
@@ -80,7 +81,8 @@ class Game:
 
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
-
+            
+            # main menu
             if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
 
@@ -129,7 +131,7 @@ class Game:
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
-                            self.xp += 1
+                            self.hero.xp += 1
                             break
 
             ###########
@@ -139,7 +141,12 @@ class Game:
             Time_HUD(self, font)
             Hero_HP_HUD(self, font)
             Xp_HUD(self, font)
+            Leveling_Bar_HUD(self, font)
             ###########
+
+            # if hero die/hp < 1
+            if self.hero.hp < 1:
+                self.game_over_menu.reboot_game()
 
             if self.tick % 60 == 0:
                 self.second += 1
