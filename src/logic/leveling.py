@@ -7,5 +7,6 @@
 #           self.hero.level_bar = 0
 #
 #
-#           LOL, IM SORRY, I NEED TO MOVE IT OUT TO CLASS HERO
+#           LOL, IM SORRY, I NEED TO MOVE IT OUT TO CLASS HERO,
+#           I WANT TO KEEP IT AS HISTORICAL CODE, THAT U (FAIQ) WROTE "SOLO LEVELING YEAH BABY"
 
