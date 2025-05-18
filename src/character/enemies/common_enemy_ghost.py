@@ -5,23 +5,24 @@ from path_config import ASSET_DIR
 import os
 import random
 
+
 class Common_Enemy_Ghost(Enemy_Base):
-    def __init__(self, map_width, map_height, hero_x, hero_y):
+    def __init__(self, spawn_x, spawn_y, map_width, map_height):
         animation_path = os.path.join(ASSET_DIR, "Enemies", "CasperSprites.png")
 
         super().__init__(
-            animation_path, 
-            48, 48, 
-            (0, 0, 0), 
-            50, 10, 2.5, 
-            map_width, map_height
+            animation_path, 48, 48, (0, 0, 0), 50, 10, 2.5, map_width, map_height
         )
         self.speed = 2
         self.bullet = EnemyBulletA(owner=self)
-        self.hp = 100 # for testing, i use 1 hp
-        
-        self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
-        self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])
+        self.hp = 100  # for testing, i use 1 hp
+
+        # moved to EnemyGenerator, i kept it commented out as backup
+        # if smtg fvck up happen
+        # self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
+        # self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])
+        self.x = spawn_x
+        self.y = spawn_y
 
     def update(self, target_x, target_y, obstacle_list=None):
         MAP_WIDTH = 10000
@@ -30,19 +31,19 @@ class Common_Enemy_Ghost(Enemy_Base):
         old_x, old_y = self.x, self.y
 
         target_positions = [
-            (target_x, target_y),  
-            (target_x + MAP_WIDTH, target_y),  
-            (target_x - MAP_WIDTH, target_y), 
-            (target_x, target_y + MAP_HEIGHT),  
-            (target_x, target_y - MAP_HEIGHT),  
-            (target_x + MAP_WIDTH, target_y + MAP_HEIGHT),  
-            (target_x + MAP_WIDTH, target_y - MAP_HEIGHT),  
+            (target_x, target_y),
+            (target_x + MAP_WIDTH, target_y),
+            (target_x - MAP_WIDTH, target_y),
+            (target_x, target_y + MAP_HEIGHT),
+            (target_x, target_y - MAP_HEIGHT),
+            (target_x + MAP_WIDTH, target_y + MAP_HEIGHT),
+            (target_x + MAP_WIDTH, target_y - MAP_HEIGHT),
             (target_x - MAP_WIDTH, target_y + MAP_HEIGHT),
-            (target_x - MAP_WIDTH, target_y - MAP_HEIGHT)   
+            (target_x - MAP_WIDTH, target_y - MAP_HEIGHT),
         ]
-        
+
         closest_target = None
-        min_distance = float('inf')
+        min_distance = float("inf")
 
         for tx, ty in target_positions:
             dx = tx - self.x
@@ -71,7 +72,7 @@ class Common_Enemy_Ghost(Enemy_Base):
                 if obstacle.obstacle_collision(self):
                     self.x, self.y = old_x, old_y
                     break
-                
+
         self.bullet.update(target_x, target_y)
 
     def draw(self, screen, camera_x=0, camera_y=0):

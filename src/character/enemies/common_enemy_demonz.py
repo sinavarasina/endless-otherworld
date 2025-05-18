@@ -7,7 +7,7 @@ import random
 
 
 class Common_Enemy_Demonz(Enemy_Base):
-    def __init__(self, map_width, map_height, hero_x, hero_y):
+    def __init__(self, spawn_x, spawn_y, map_width, map_height):
         animation_path = os.path.join(ASSET_DIR, "Enemies", "demonz.png")
 
         super().__init__(
@@ -17,8 +17,12 @@ class Common_Enemy_Demonz(Enemy_Base):
         self.bullet = EnemyBulletDemonz(owner=self)
         self.hp = 1  # for testing, i use 1 hp
 
-        self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
-        self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])
+        # moved to EnemyGenerator, i kept it commented out as backup
+        # if smtg fvck up happen
+        # self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
+        # self.y = hero_y + random.randint(540, 700) * random.choice([-1, 1])
+        self.x = spawn_x
+        self.y = spawn_y
 
     def update(self, target_x, target_y, obstacle_list=None):
         MAP_WIDTH = 10000
