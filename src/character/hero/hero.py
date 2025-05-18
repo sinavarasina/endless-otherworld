@@ -21,14 +21,14 @@ class Hero(Hero_Base):
             map_height,
             speed=5,
         )
-        self.xp = 0
+        self.exp = 0
         self.bullet = Hero_Bullet_A(owner=self)
 
     def handle_input(self, keys, obstacle_list=None):
         dx = keys[pygame.K_d] - keys[pygame.K_a]
         dy = keys[pygame.K_s] - keys[pygame.K_w]
 
-        length = math.sqrt(dx*dx + dy*dy)
+        length = math.sqrt(dx * dx + dy * dy)
         if length > 0:
             dx_normalized = dx / length
             dy_normalized = dy / length

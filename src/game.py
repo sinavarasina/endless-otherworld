@@ -9,10 +9,7 @@ from src.main_menu.game_over_menu import GameOverMenu
 
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
-from src.HUD.time_HUD import Time_HUD
-from src.HUD.hero_hp_HUD import Hero_HP_HUD
-from src.HUD.xp_HUD import Xp_HUD
-from src.HUD.leveling_bar_HUD import Leveling_Bar_HUD
+from src.HUD.hud import HUD
 
 
 class Game:
@@ -28,9 +25,7 @@ class Game:
         self.map_obj = Map(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         # Load Hero and Enemy
-        self.hero = Hero(
-            *self.map_obj.get_map_size()
-        )
+        self.hero = Hero(*self.map_obj.get_map_size())
 
         # enemy object list
         self.enemies = []
@@ -54,6 +49,8 @@ class Game:
         self.main_menu = True
 
         self.game_over_menu = GameOverMenu(self)
+
+        self.hud = HUD(self)
 
         # time logic (in second)
         self.tick = 0
@@ -81,7 +78,7 @@ class Game:
 
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
-            
+
             # main menu
             if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
@@ -131,18 +128,10 @@ class Game:
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
-                            self.hero.xp += 1
+                            self.hero.exp += 1
                             break
-
-            ###########
-            #   HUD   #
-            ###########
-            # Render time in right bottom
-            Time_HUD(self, font)
-            Hero_HP_HUD(self, font)
-            Xp_HUD(self, font)
-            Leveling_Bar_HUD(self, font)
-            ###########
+            # render da hood
+            self.hud.draw()
 
             # if hero die/hp < 1
             if self.hero.hp < 1:
