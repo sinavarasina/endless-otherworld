@@ -18,6 +18,8 @@ class Game:
         self.SCREEN_HEIGHT = 1080
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption("Endless Otherworld")
+        pygame.mouse.set_visible(False)
+        self.mouse_pos = (0, 0)
 
         # Load Map
         self.map_obj = Map(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
@@ -62,6 +64,9 @@ class Game:
             camera_x += 50
             camera_y += 50
 
+            # Get mouse position
+            self.mouse_pos = pygame.mouse.get_pos()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -69,6 +74,9 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.main_menu = True
+
+                if event.type == pygame.MOUSEMOTION:
+                    self.mouse_pos = event.pos
 
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)

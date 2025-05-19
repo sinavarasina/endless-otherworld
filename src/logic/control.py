@@ -63,11 +63,8 @@ class Control:
             self.game.hero.set_animation(full_path)
 
     def handle_mouse_input(self, event, camera_x, camera_y):
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left click
             mouse_x, mouse_y = event.pos
-            mouse_button = event.button
-
             world_x = mouse_x + camera_x
             world_y = mouse_y + camera_y
-
             self.game.hero.handle_mouse_input(world_x, world_y)

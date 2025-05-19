@@ -27,13 +27,18 @@ class Bullet:
 
     def shoot(self, target_x, target_y):
         if not self.active:
-            self.x = self.owner.x + (self.owner.frame_width * self.owner.scale) // 2
-            self.y = self.owner.y + (self.owner.frame_height * self.owner.scale) // 2
+            # adding -50 here to compensate the +50 offset cammera on game.py
+            self.x = (
+                self.owner.x - 50 + (self.owner.frame_width * self.owner.scale) // 2
+            )
+            self.y = (
+                self.owner.y - 50 + (self.owner.frame_height * self.owner.scale) // 2
+            )
 
             dx = target_x - self.x
             dy = target_y - self.y
-
             length = math.hypot(dx, dy)
+
             if length != 0:
                 self.vx = (dx / length) * self.speed
                 self.vy = (dy / length) * self.speed

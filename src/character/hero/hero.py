@@ -68,3 +68,54 @@ class Hero(Hero_Base):
         if self.level_bar > self.level * 20:
             self.level += 1
             self.level_bar = 0
+
+    def draw_aiming_indicator(self, screen, camera_x, camera_y):
+        # Get mouse position in world coordinates
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        world_mouse_x = mouse_x + camera_x
+        world_mouse_y = mouse_y + camera_y
+
+        # Calculate angle between hero and mouse
+        dx = world_mouse_x - self.x
+        dy = world_mouse_y - self.y
+        angle = math.atan2(dy, dx)
+
+        # Calculate arrow points
+        arrow_length = 30
+        arrow_width = 10
+
+        # Base of arrow
+        base_x = (self.x + 75) + math.cos(
+            angle
+        ) * 50  # i thought it +50 just as in game.py but it doesnt fit well
+        base_y = (self.y + 75) + math.sin(
+            angle
+        ) * 50  # so i set it to +75 offset to get better (while not perfetcly accurate)
+
+        # Tip of arrow
+        tip_x = base_x + math.cos(angle) * arrow_length
+        tip_y = base_y + math.sin(angle) * arrow_length
+
+        # Side points of arrow
+        side_angle = angle + math.pi / 2
+        side1_x = tip_x + math.cos(side_angle) * arrow_width / 2
+        side1_y = tip_y + math.sin(side_angle) * arrow_width / 2
+        side2_x = tip_x - math.cos(side_angle) * arrow_width / 2
+        side2_y = tip_y - math.sin(side_angle) * arrow_width / 2
+
+        # Convert to screen coordinates
+        screen_base = (base_x - camera_x, base_y - camera_y)
+        screen_tip = (tip_x - camera_x, tip_y - camera_y)
+        screen_side1 = (side1_x - camera_x, side1_y - camera_y)
+        screen_side2 = (side2_x - camera_x, side2_y - camera_y)
+
+        # Draw the arrow (inspired by Temple OS cursor, lol)
+        pygame.draw.line(screen, (255, 255, 255), screen_base, screen_tip, 2)
+        pygame.draw.line(screen, (255, 255, 255), screen_tip, screen_side1, 2)
+        pygame.draw.line(screen, (255, 255, 255), screen_tip, screen_side2, 2)
+
+    def draw(self, screen, camera_x=0, camera_y=0):
+        super().draw(screen, camera_x, camera_y)
+        self.draw_aiming_indicator(
+            screen, camera_x, camera_y
+        )  # Draw the aiming indicator
