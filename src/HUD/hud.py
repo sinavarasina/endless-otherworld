@@ -21,9 +21,15 @@ class HUD:
         bar_width = 200
         bar_height = 20
         border_color = (255, 255, 255)
-        fill_color = (0, 255, 0)
 
         hp_percentage = max(0, min(self.game.hero.hp, 100))
+        if hp_percentage > 75:
+            fill_color = (0, 255, 0)
+        elif hp_percentage > 25:
+            fill_color = (0, 0, 255)
+        else:
+            fill_color = (255, 0, 0)
+
         current_width = int((hp_percentage / 100) * bar_width)
 
         # Draw HP bar
@@ -90,8 +96,8 @@ class HUD:
     #    self.game.screen.blit(level_text, (640, 1030))  # Below the bar
     #
     #
-    #    I THINK TO BE BETTER LIKE BELLOW BUT IF YOU A FE (FLAT EARTHER) THINK THAT WHAT I DO IS HORRIBLE, JUST UNCOMMENT IT
-    #    I THINK CLEARER is better
+    #    I THINK IT IS BETTER TO BE LIKE MY CODE BELOW BUT IF YOU (FAIQ) A FE (FLAT EARTHER) THINK THAT WHAT I DO IS HORRIBLE, JUST UNCOMMENT IT
+    #    I THINK CLEANER is better
 
     def _draw_exp(self):
         # Draw EXP text aligned with level text

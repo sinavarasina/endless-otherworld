@@ -3,7 +3,7 @@ from .enemy_base import Enemy_Base
 import math
 from path_config import ASSET_DIR
 import os
-import random
+# import random
 
 
 class Common_Enemy_Demonz(Enemy_Base):

@@ -3,7 +3,7 @@ from ..bullets.Enemy_Bullets.enemy_bullet_flamez import EnemyBulletFlamez
 import math
 from path_config import ASSET_DIR
 import os
-import random
+# import random
 
 
 class Common_Enemy_Flame(Enemy_Base):
