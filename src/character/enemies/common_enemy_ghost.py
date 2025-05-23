@@ -3,8 +3,6 @@ from ..bullets.Enemy_Bullets.enemy_bullet_A import EnemyBulletA
 import math
 from path_config import ASSET_DIR
 import os
-# import random
-
 
 class Common_Enemy_Ghost(Enemy_Base):
     def __init__(self, spawn_x, spawn_y, map_width, map_height):
@@ -16,7 +14,7 @@ class Common_Enemy_Ghost(Enemy_Base):
         self.speed = 2
         self.bullet = EnemyBulletA(owner=self)
         self.hp = 200  # for testing, i use 1 hp
-        self.killed_exp = 10
+        self.killed_exp = 1000
 
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen

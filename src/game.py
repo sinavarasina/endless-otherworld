@@ -8,6 +8,7 @@ from src.main_menu.main_menu import MainMenu
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
 from src.HUD.hud import HUD
+from src.gacha.gacha_menu import GachaMenu
 
 
 class Game:
@@ -18,7 +19,7 @@ class Game:
         self.SCREEN_HEIGHT = 1080
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption("Endless Otherworld")
-        pygame.mouse.set_visible(False)
+        # pygame.mouse.set_visible(False)
         self.mouse_pos = (0, 0)
 
         # Load Map
@@ -45,6 +46,10 @@ class Game:
         # main menu logic
         self.main_menu_screen = MainMenu(
             self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self
+        )
+
+        self.gacha_menu_screen = GachaMenu(
+            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "game_data.json"
         )
         self.main_menu = True
 
@@ -82,7 +87,7 @@ class Game:
                 self.control.handle_mouse_input(event, camera_x, camera_y)
 
             # main menu
-            if self.main_menu_screen.update(self, camera_x, camera_y):
+            if self.gacha_menu_screen.update(self, camera_x, camera_y):
                 continue
 
             self.tick += 1
@@ -132,7 +137,7 @@ class Game:
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
-                            # self.hero.exp += 1  # faiq are ya crazy to set exp plus every shoot ya make
+                            # self.hero.exp += 1  # faiq are ya crazy to set exp plus every shoot ya make, lol
                             # Leveling(self)
                             break
             # render da hood

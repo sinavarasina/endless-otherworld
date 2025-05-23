@@ -1,0 +1,7 @@
+{
+"gacha_items":[
+    {"items":"heart1", "imagename": "heart1", "path":"Doe", "Description":""},
+    {"items":"heart2", "imagename": "heart2", "path":"Smith", "Description":""},
+    {"items":"muscle1", "imagename": "attack1", "path":"Jones", "Description":""}
+]
+}
