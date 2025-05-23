@@ -18,7 +18,8 @@ class Game:
         self.SCREEN_HEIGHT = 1080
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption("Endless Otherworld")
-        pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible(True)
+        pygame.event.set_grab(True)
         self.mouse_pos = (0, 0)
 
         # Load Map
@@ -149,6 +150,6 @@ class Game:
 
             # debug
             # print(f"level: {self.hero.level}, level bar: {self.hero.level_bar}")
-
+        pygame.event.set_grab(False)
         pygame.quit()
         sys.exit()
