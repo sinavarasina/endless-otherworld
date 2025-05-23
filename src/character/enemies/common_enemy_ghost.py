@@ -16,7 +16,7 @@ class Common_Enemy_Ghost(Enemy_Base):
         self.speed = 2
         self.bullet = EnemyBulletA(owner=self)
         self.hp = 200  # for testing, i use 1 hp
-        self.killed_exp = 10
+        self.killed_exp = 100
 
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen

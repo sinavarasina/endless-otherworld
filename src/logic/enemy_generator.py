@@ -11,12 +11,11 @@ enemy_list = {
 
 
 class EnemyGenerator:
-    def __init__(self, map_obj, hero, enemies_list, spawn_interval=60):
+    def __init__(self, map_obj, hero, enemies_list):
         self.map_obj = map_obj
         self.hero = hero
         self.enemies = enemies_list
         self.obstacle_list = self.map_obj.get_obstacles()
-        self.spawn_interval = spawn_interval
         self.tick = 0
 
     ##################################################################################################### Protected
@@ -39,6 +38,13 @@ class EnemyGenerator:
 
         return enemy_class(spawn_x, spawn_y, map_width, map_height)
 
+    def __get_spawn_interval(self):
+        level = self.hero.level
+        base_interval = 180
+        min_interval = 20
+
+        return max(min_interval, base_interval - (level * 5))
+
     ###################################################################################################### Public
 
     def generate(self):
@@ -51,6 +57,6 @@ class EnemyGenerator:
 
     def update(self):
         self.tick += 1
-        if self.tick % self.spawn_interval == 0:
+        if self.tick % self.__get_spawn_interval() == 0:
             new_enemy = self.generate()
             self.enemies.append(new_enemy)

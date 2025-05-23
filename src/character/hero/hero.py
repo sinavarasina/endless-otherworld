@@ -21,6 +21,8 @@ class Hero(Hero_Base):
             map_height,
             speed=5,
         )
+        self.hp_maxcap = 100
+        self.hp = self.hp_maxcap
         self.level = 1
         self.level_bar = 0
         self.exp = 0
@@ -59,6 +61,8 @@ class Hero(Hero_Base):
         while self.exp >= self.xp_target:
             self.exp -= self.xp_target
             self.level += 1
+
+            self.hp = self.hp_maxcap
 
             self.xp_target = self._calculate_xp_target(self.level)
             leveled_up_this_call = True
@@ -156,4 +160,3 @@ class Hero(Hero_Base):
 #       self.draw_aiming_indicator(
 #           screen, camera_x, camera_y
 #       )  # Draw the aiming indicator
-
