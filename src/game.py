@@ -87,10 +87,11 @@ class Game:
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
             
+
+            # well maybe you wondering why placing this thing in up, well, it is for making the game loop not running any logic other than this menu
             # checking when level up
             if self.gacha_menu_screen.update(self, camera_x, camera_y):
                 continue
-
             # main menu
             if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
