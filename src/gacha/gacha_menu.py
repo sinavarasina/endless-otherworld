@@ -3,6 +3,7 @@ import os
 import json
 import random
 from path_config import ASSET_DIR
+from path_config import FONT_DIR
 
 class GachaMenu:
     @staticmethod
@@ -19,6 +20,7 @@ class GachaMenu:
 
         self.gacha_data = GachaMenu.load_gacha_data(json_path)
         self.item_images = []
+        self.font = os.path.join(FONT_DIR, "bloodcrow.ttf")
         
         # looping for every image
         for item in self.gacha_data:
@@ -37,8 +39,8 @@ class GachaMenu:
         overlay.fill((0, 0, 0, 128))
         self.screen.blit(overlay, (0, 0))
 
-        font_title = pygame.font.SysFont(None, 80)
-        font_subtitle = pygame.font.SysFont(None, 40)
+        font_title = pygame.font.Font(self.font, 80)
+        font_subtitle = pygame.font.Font(self.font, 40)
 
         title = font_title.render("Choose your faith!", True, (255, 255, 255))
         subtitle2 = font_subtitle.render(
