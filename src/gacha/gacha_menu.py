@@ -23,7 +23,7 @@ class GachaMenu:
         for item in self.gacha_data:
             key = list(item.keys())[1]  # e.g., 'items1'
             image_name = item[key]
-            image_path = os.path.join(json_path, "GachaItems", image_name)
+            image_path = os.path.join(ASSET_DIR, "GachaItems", image_name)
             image = pygame.image.load(image_path).convert_alpha()
             image = pygame.transform.scale(image, self.item_size)
             self.item_images.append(image)
