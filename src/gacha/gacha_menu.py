@@ -91,11 +91,8 @@ class GachaMenu:
     
     # to update this menu in the game loop and checking to key interrupt
     def update(self, game, camera_x, camera_y):
-        if game.main_menu:
+        if game.hero.level != game.hero.level_old:
             self.draw()
-            game.map_obj.draw(game.screen)
-            game.hero.draw(game.screen, camera_x, camera_y)
-            game.hero.update()
             game.bgm.volume = 0.2
             game.bgm.play()
 
@@ -104,9 +101,8 @@ class GachaMenu:
                 game.main_menu = False
                 game.bgm.volume = 1
                 game.bgm.play()
-                game.hero.hp = 100
-            if keys[pygame.K_ESCAPE]:
-                game.running = False
+                game.hero.level_old = game.hero.level
+
             game.clock.tick(60)
             return True
         return False

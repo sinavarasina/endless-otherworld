@@ -86,9 +86,13 @@ class Game:
 
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
+            
+            # checking when level up
+            if self.gacha_menu_screen.update(self, camera_x, camera_y):
+                continue
 
             # main menu
-            if self.gacha_menu_screen.update(self, camera_x, camera_y):
+            if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
 
             self.tick += 1
@@ -152,7 +156,7 @@ class Game:
                 self.second += 1
             pygame.display.flip()
             self.clock.tick(60)
-
+                
             # debug
             # print(f"level: {self.hero.level}, level bar: {self.hero.level_bar}")
 

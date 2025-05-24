@@ -22,6 +22,7 @@ class Hero(Hero_Base):
             speed=5,
         )
         self.level = 1
+        self.level_old = 1 # for logic cheking in gacha menu so if the hero levelup its become not same with the level
         self.level_bar = 0
         self.exp = 0
         self.bullet = Hero_Bullet_A(owner=self)
@@ -64,7 +65,7 @@ class Hero(Hero_Base):
                     break
 
     def level_update(self):
-        self.level_bar += 1 / self.level
+        self.level_bar += 20 / self.level
         if self.level_bar > self.level * 20:
             self.level += 1
             self.level_bar = 0
