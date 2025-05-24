@@ -99,7 +99,7 @@ class HUD:
     #
     #
     #    I THINK IT IS BETTER TO BE LIKE MY CODE BELOW BUT IF YOU (FAIQ) A FE (FLAT EARTHER) THINK THAT WHAT I DO IS HORRIBLE, JUST UNCOMMENT IT
-    #    I THINK CLEANER is better, you dont understand what the real clean is
+    #    I THINK CLEANER is better, you clearly not understand what the real clean is
 
     def _draw_exp(self):
         # Draw EXP text aligned with level text
