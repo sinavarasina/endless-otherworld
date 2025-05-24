@@ -4,6 +4,7 @@ from .character.hero.hero import Hero
 from .maps.map import Map
 from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
+from path_config import JSON_DIR
 from src.main_menu.main_menu import MainMenu
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
@@ -49,7 +50,7 @@ class Game:
         )
 
         self.gacha_menu_screen = GachaMenu(
-            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "game_data.json"
+            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, JSON_DIR
         )
         self.main_menu = True
 

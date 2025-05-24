@@ -1,7 +1,7 @@
 import pygame
 import os
 import json
-from path_config import JSON_DIR
+from path_config import ASSET_DIR
 
 class GachaMenu:
     @staticmethod
@@ -18,14 +18,17 @@ class GachaMenu:
 
         self.gacha_data = GachaMenu.load_gacha_data(json_path)
         self.item_images = []
+        
+        # looping for every image
         for item in self.gacha_data:
-            key = list(item.keys())[0]  # e.g., 'items1'
-            image_name = item[key] + ".png"
-            image_path = os.path.join(JSON_DIR, "GachaItems", image_name)
+            key = list(item.keys())[1]  # e.g., 'items1'
+            image_name = item[key]
+            image_path = os.path.join(json_path, "GachaItems", image_name)
             image = pygame.image.load(image_path).convert_alpha()
             image = pygame.transform.scale(image, self.item_size)
             self.item_images.append(image)
 
+    # to draw the image from path that in json
     def draw(self):
         overlay = pygame.Surface(
             (self.screen_width, self.screen_height), pygame.SRCALPHA
@@ -69,12 +72,6 @@ class GachaMenu:
             number_text = font_number.render(str(i + 1), True, (255, 255, 255))
             number_rect = number_text.get_rect(center=(x + box_width // 2, y + box_height + 30))
             self.screen.blit(number_text, number_rect)
-
-            # description
-            # font_number = pygame.font.SysFont(None, 50)
-            # number_text = font_number.render(str(i + 1), True, (255, 255, 255))
-            # number_rect = number_text.get_rect(center=(x + box_width // 2, y + box_height - 250))
-            # self.screen.blit(number_text, number_rect)
 
             # description dari JSON
             font_desc = pygame.font.SysFont(None, 30)
