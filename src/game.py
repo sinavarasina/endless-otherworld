@@ -48,12 +48,12 @@ class Game:
         self.main_menu_screen = MainMenu(
             self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self
         )
-
+        
+        # initiating gacha menu
         self.gacha_menu_screen = GachaMenu(
             self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, JSON_DIR
         )
         self.main_menu = True
-
         self.hud = HUD(self)
 
         # time logic (in second)

@@ -1,6 +1,7 @@
 import pygame
 import os
 import json
+import random
 from path_config import ASSET_DIR
 
 class GachaMenu:
@@ -21,7 +22,7 @@ class GachaMenu:
         
         # looping for every image
         for item in self.gacha_data:
-            key = list(item.keys())[1]  # e.g., 'items1'
+            key = list(item.keys())[1]
             image_name = item[key]
             image_path = os.path.join(ASSET_DIR, "GachaItems", image_name)
             image = pygame.image.load(image_path).convert_alpha()
@@ -33,7 +34,7 @@ class GachaMenu:
         overlay = pygame.Surface(
             (self.screen_width, self.screen_height), pygame.SRCALPHA
         )
-        overlay.fill((0, 0, 0, 128))  # Transparan hitam
+        overlay.fill((0, 0, 0, 128))
         self.screen.blit(overlay, (0, 0))
 
         font_title = pygame.font.SysFont(None, 80)
@@ -61,23 +62,27 @@ class GachaMenu:
         for i in range(3):
             x = start_x + i * (box_width + spacing)
 
-            border = pygame.Surface((box_width + 10, box_height + 10), pygame.SRCALPHA)
-            border.fill((255, 255, 255, 0))  # transparan putih
-            self.screen.blit(border, (x - 5, y - 5))
+            # shaking animation to image
+            offset_x = random.randint(-2, 2)
+            offset_y = random.randint(-2, 2)
 
-            self.screen.blit(self.item_images[i], (x, y))
+            border = pygame.Surface((box_width + 10, box_height + 10), pygame.SRCALPHA)
+            border.fill((255, 255, 255, 0))
+            self.screen.blit(border, (x - 5 + offset_x, y - 5 + offset_y))
+
+            self.screen.blit(self.item_images[i], (x + offset_x, y + offset_y))
 
             # number in the top of items image
             font_number = pygame.font.SysFont(None, 50)
             number_text = font_number.render(str(i + 1), True, (255, 255, 255))
-            number_rect = number_text.get_rect(center=(x + box_width // 2, y + box_height + 30))
+            number_rect = number_text.get_rect(center=(x + box_width // 2, y + box_height - 250))
             self.screen.blit(number_text, number_rect)
 
-            # description dari JSON
+            # description from JSON
             font_desc = pygame.font.SysFont(None, 30)
             description = self.gacha_data[i]["Description"]
             desc_text = font_desc.render(description, True, (255, 255, 255))
-            desc_rect = desc_text.get_rect(center=(x + box_width // 2, y + box_height - 250))
+            desc_rect = desc_text.get_rect(center=(x + box_width // 2, y + box_height + 30))
             self.screen.blit(desc_text, desc_rect)
 
         pygame.display.flip()
