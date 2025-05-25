@@ -1,4 +1,5 @@
 import random
+from src.character.enemies.common_enemy_capybara import Common_Enemy_Capybara
 from src.character.enemies.common_enemy_demonz import Common_Enemy_Demonz
 from src.character.enemies.common_enemy_flame import Common_Enemy_Flame
 from src.character.enemies.common_enemy_ghost import Common_Enemy_Ghost
@@ -7,6 +8,7 @@ enemy_list = {
     1: Common_Enemy_Ghost,
     2: Common_Enemy_Flame,
     3: Common_Enemy_Demonz,
+    4: Common_Enemy_Capybara,
 }
 
 
