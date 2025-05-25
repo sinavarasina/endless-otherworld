@@ -1,11 +1,10 @@
 import pygame
-
 from src.logic.collition_logic import CollitionLogic
 
 
 class Obstacle:
-    def __init__(self, image_dir, pos):
-        self.obstacle_image = pygame.image.load(image_dir).convert_alpha()
+    def __init__(self, image_surface, pos):
+        self.obstacle_image = image_surface
         self.obstacle_mask = pygame.mask.from_surface(self.obstacle_image)
         self.obstacle_position = pos
         self.collision_detector = CollitionLogic()
