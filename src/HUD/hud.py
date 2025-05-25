@@ -17,6 +17,7 @@ class HUD:
         self._draw_exp()
         self._draw_leveling_bar()
         self._draw_score()
+        self._draw_top_score()
 
     # i think ist time to use some protected shit
     def _draw_hero_hp(self):
@@ -155,3 +156,12 @@ class HUD:
             self.game.SCREEN_HEIGHT - 30,
         )
         self.game.screen.blit(score_text, text_rect)
+
+    def _draw_top_score(self):
+        top_score_data = self.game.score_crud.read_all()
+        top_score = top_score_data[0]["score"] if top_score_data else 0
+
+        score_text = self.small_font.render(
+            f"TOP SCORE: {top_score}", True, (255, 255, 0)
+        )
+        self.game.screen.blit(score_text, (10, 60))

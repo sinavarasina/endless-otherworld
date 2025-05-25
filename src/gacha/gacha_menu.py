@@ -22,7 +22,6 @@ class GachaMenu:
         self.item_size = (200, 200)
 
         self.gacha_data_load = GachaMenu.load_gacha_data(json_path)
-        self.shuffle_trigger = False
         self.item_images = []
         self.font = os.path.join(FONT_DIR, "bloodcrow.ttf")
         self.gacha_menu_loop = False

@@ -10,6 +10,7 @@ from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
 from src.HUD.hud import HUD
 from src.gacha.gacha_menu import GachaMenu
+from src.logic.score_crud import ScoreCRUD
 
 
 class Game:
@@ -60,6 +61,8 @@ class Game:
         # time logic (in second)
         self.tick = 0
         self.second = 0
+
+        self.score_crud = ScoreCRUD()
 
     def start(self):
         self.bgm.play()
