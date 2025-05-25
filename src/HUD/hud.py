@@ -1,12 +1,14 @@
 # src/HUD/hud.py
 import pygame
-
+import os
+from path_config import FONT_DIR
 
 class HUD:
     def __init__(self, game):
         self.game = game
-        self.small_font = pygame.font.Font(None, 24)
-        self.medium_font = pygame.font.Font(None, 36)
+        self.font = os.path.join(FONT_DIR, "bloodcrow.ttf")
+        self.small_font = pygame.font.Font(self.font, 24)
+        self.medium_font = pygame.font.Font(self.font, 36)
 
     def draw(self):
         self._draw_hero_hp()
@@ -97,16 +99,16 @@ class HUD:
     #
     #
     #    I THINK IT IS BETTER TO BE LIKE MY CODE BELOW BUT IF YOU (FAIQ) A FE (FLAT EARTHER) THINK THAT WHAT I DO IS HORRIBLE, JUST UNCOMMENT IT
-    #    I THINK CLEANER is better
+    #    I THINK CLEANER is better, you clearly not understand what the real clean is
 
     def _draw_exp(self):
         # Draw EXP text aligned with level text
-        exp_text = self.medium_font.render(
+        exp_text = self.small_font.render(
             f"EXP: {self.game.hero.exp}", True, (255, 255, 255)
         )
 
         # Get level text dimensions first
-        level_text = self.medium_font.render(
+        level_text = self.small_font.render(
             f"Level: {self.game.hero.level}", True, (255, 255, 255)
         )
         level_text_width = level_text.get_width()

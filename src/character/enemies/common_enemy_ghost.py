@@ -3,7 +3,6 @@ from ..bullets.Enemy_Bullets.enemy_bullet_A import EnemyBulletA
 import math
 from path_config import ASSET_DIR
 import os
-# import random
 
 
 class Common_Enemy_Ghost(Enemy_Base):

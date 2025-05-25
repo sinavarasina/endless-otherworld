@@ -4,10 +4,12 @@ from .character.hero.hero import Hero
 from .maps.map import Map
 from .components.sound.bgm import BGM
 from path_config import ASSET_DIR
+from path_config import JSON_DIR
 from src.main_menu.main_menu import MainMenu
 from src.logic.enemy_generator import EnemyGenerator
 from src.logic.control import Control
 from src.HUD.hud import HUD
+from src.gacha.gacha_menu import GachaMenu
 
 
 class Game:
@@ -47,8 +49,12 @@ class Game:
         self.main_menu_screen = MainMenu(
             self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self
         )
-        self.main_menu = True
 
+        # initiating gacha menu
+        self.gacha_menu_screen = GachaMenu(
+            self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, JSON_DIR
+        )
+        self.main_menu = True
         self.hud = HUD(self)
 
         # time logic (in second)
@@ -82,6 +88,10 @@ class Game:
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
 
+            # well maybe you wondering why placing this thing in up, well, it is for making the game loop not running any logic other than this menu
+            # checking when level up
+            if self.gacha_menu_screen.update(self, camera_x, camera_y):
+                continue
             # main menu
             if self.main_menu_screen.update(self, camera_x, camera_y):
                 continue
@@ -133,7 +143,7 @@ class Game:
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
                             enemy.hp -= 25
-                            # self.hero.exp += 1  # faiq are ya crazy to set exp plus every shoot ya make
+                            # self.hero.exp += 1  # faiq are ya crazy to set exp plus every shoot ya make, lol
                             # Leveling(self)
                             break
             # render da hood

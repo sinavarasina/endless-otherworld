@@ -24,6 +24,7 @@ class Hero(Hero_Base):
         self.hp_maxcap = 100
         self.hp = self.hp_maxcap
         self.level = 1
+        self.level_old = 1  # for logic cheking in gacha menu so if the hero levelup its become not same with the level
         self.level_bar = 0
         self.exp = 0
         self.bullet = Hero_Bullet_A(owner=self)
@@ -156,7 +157,6 @@ class Hero(Hero_Base):
     def draw(self, screen, camera_x=0, camera_y=0):
         super().draw(screen, camera_x, camera_y)
 
-
-#       self.draw_aiming_indicator(
-#           screen, camera_x, camera_y
-#       )  # Draw the aiming indicator
+    #       self.draw_aiming_indicator(
+    #           screen, camera_x, camera_y
+    #       )  # Draw the aiming indicator

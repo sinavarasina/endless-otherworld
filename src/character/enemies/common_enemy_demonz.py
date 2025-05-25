@@ -17,7 +17,6 @@ class Common_Enemy_Demonz(Enemy_Base):
         self.bullet = EnemyBulletDemonz(owner=self)
         self.hp = 80  # for testing, i use 1 hp
         self.killed_exp = 90
-
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen
         # self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
