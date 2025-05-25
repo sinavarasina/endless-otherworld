@@ -1,4 +1,4 @@
-from ..bullets.Enemy_Bullets.enemy_bullet_demonz import EnemyBulletDemonz
+from ..bullets.Enemy_Bullets.enemy_bullet_capybara import EnemyBulletCapybara
 from .enemy_base import Enemy_Base
 import math
 from path_config import ASSET_DIR
@@ -14,7 +14,7 @@ class Common_Enemy_Capybara(Enemy_Base):
             animation_path, 64, 70, (0, 0, 0), 50, 10, 2.5, map_width, map_height
         )
         self.speed = 2
-        self.bullet = EnemyBulletDemonz(owner=self)
+        self.bullet = EnemyBulletCapybara(owner=self)
         self.hp = 100  # for testing, i use 1 hp
         self.killed_exp = 95
         # moved to EnemyGenerator, i kept it commented out as backup
