@@ -32,7 +32,7 @@ class Hero(Hero_Base):
 
         self.xp_base = 1000
         self.xp_factor = 1.25
-        self._calculate_xp_target(self.level)
+        self.xp_target = self._calculate_xp_target(self.level)
 
     def _calculate_xp_target(self, current_hero_level):
         if current_hero_level < 1:
