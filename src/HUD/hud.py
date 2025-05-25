@@ -151,7 +151,7 @@ class HUD:
         )
         text_rect = score_text.get_rect()
         text_rect.bottomleft = (
-            200,
-            self.game.SCREEN_HEIGHT - 50,
+            30,
+            self.game.SCREEN_HEIGHT - 30,
         )
         self.game.screen.blit(score_text, text_rect)
