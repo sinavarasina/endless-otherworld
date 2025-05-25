@@ -4,6 +4,7 @@ import math
 from path_config import ASSET_DIR
 import os
 
+
 class Common_Enemy_Ghost(Enemy_Base):
     def __init__(self, spawn_x, spawn_y, map_width, map_height):
         animation_path = os.path.join(ASSET_DIR, "Enemies", "CasperSprites.png")
@@ -14,7 +15,7 @@ class Common_Enemy_Ghost(Enemy_Base):
         self.speed = 2
         self.bullet = EnemyBulletA(owner=self)
         self.hp = 200  # for testing, i use 1 hp
-        self.killed_exp = 1000
+        self.killed_exp = 100
 
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen

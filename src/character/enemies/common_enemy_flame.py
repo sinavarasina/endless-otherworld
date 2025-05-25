@@ -16,8 +16,8 @@ class Common_Enemy_Flame(Enemy_Base):
         self.speed = 2
         self.bullet = EnemyBulletFlamez(owner=self)
         self.hp = 75  # for testing, i use 1 hp
-        self.killed_exp = 1000
 
+        self.killed_exp = 60
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen
         # self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])

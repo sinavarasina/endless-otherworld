@@ -20,7 +20,8 @@ class Game:
         self.SCREEN_HEIGHT = 1080
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption("Endless Otherworld")
-        # pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible(True)
+        pygame.event.set_grab(True)
         self.mouse_pos = (0, 0)
 
         # Load Map
@@ -48,7 +49,7 @@ class Game:
         self.main_menu_screen = MainMenu(
             self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self
         )
-        
+
         # initiating gacha menu
         self.gacha_menu_screen = GachaMenu(
             self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, JSON_DIR
@@ -86,7 +87,6 @@ class Game:
 
                 self.control.detect_WASD()
                 self.control.handle_mouse_input(event, camera_x, camera_y)
-            
 
             # well maybe you wondering why placing this thing in up, well, it is for making the game loop not running any logic other than this menu
             # checking when level up
@@ -157,9 +157,9 @@ class Game:
                 self.second += 1
             pygame.display.flip()
             self.clock.tick(60)
-                
+
             # debug
             # print(f"level: {self.hero.level}, level bar: {self.hero.level_bar}")
-
+        pygame.event.set_grab(False)
         pygame.quit()
         sys.exit()
