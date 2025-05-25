@@ -23,6 +23,7 @@ class Hero(Hero_Base):
         )
         self.hp_maxcap = 100
         self.hp = self.hp_maxcap
+        self.attack = 20
         self.level = 1
         self.level_old = 1  # for logic cheking in gacha menu so if the hero levelup its become not same with the level
         self.level_bar = 0
@@ -31,7 +32,7 @@ class Hero(Hero_Base):
 
         self.xp_base = 1000
         self.xp_factor = 1.25
-        self.xp_target = self._calculate_xp_target(self.level)
+        self.xp_target =  10 #self._calculate_xp_target(self.level) debug things
 
     def _calculate_xp_target(self, current_hero_level):
         if current_hero_level < 1:

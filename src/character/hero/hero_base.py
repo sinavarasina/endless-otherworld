@@ -36,7 +36,6 @@ class Hero_Base:
         self.scale = scale
 
         self.set_animation(assets_path)
-
         self.mask = pygame.mask.from_surface(self.frames[0])
 
     def set_animation(self, assets_path):

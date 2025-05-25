@@ -21,6 +21,11 @@ class GachaMenu:
         self.item_size = (200, 200)
 
         self.gacha_data = GachaMenu.load_gacha_data(json_path)
+
+        # Shuffle data dan ambil 3 item pertama
+        random.shuffle(self.gacha_data)
+        self.gacha_data = self.gacha_data[:3]
+
         self.item_images = []
         self.font = os.path.join(FONT_DIR, "bloodcrow.ttf")
         
@@ -81,7 +86,7 @@ class GachaMenu:
             self.screen.blit(number_text, number_rect)
 
             # description from JSON
-            font_desc = pygame.font.Font(self.font, 30)
+            font_desc = pygame.font.Font(self.font, 20)
             description = self.gacha_data[i]["Description"]
             desc_text = font_desc.render(description, True, (255, 255, 255))
             desc_rect = desc_text.get_rect(center=(x + box_width // 2, y + box_height + 30))
@@ -90,19 +95,50 @@ class GachaMenu:
         pygame.display.flip()
     
     # to update this menu in the game loop and checking to key interrupt
-    def update(self, game, camera_x, camera_y):
+    def update(self, game):
         if game.hero.level != game.hero.level_old:
             self.draw()
             game.bgm.volume = 0.2
             game.bgm.play()
 
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_RETURN]:
+            # chose one of the 3 items
+            if keys[pygame.K_1]:
                 game.main_menu = False
                 game.bgm.volume = 1
                 game.bgm.play()
+                
+                # take the effect in json
+                item_effect = self.gacha_data[0]["Effect"]
+                if item_effect:
+                    exec(item_effect)  # execute the python code in json
+                            
                 game.hero.level_old = game.hero.level
 
+            elif keys[pygame.K_2]:
+                game.main_menu = False
+                game.bgm.volume = 1
+                game.bgm.play()
+
+                # take the effect in json
+                item_effect = self.gacha_data[1]["Effect"]
+                if item_effect:
+                    exec(item_effect)  # execute the python code in json
+
+
+                game.hero.level_old = game.hero.level
+            elif keys[pygame.K_3]:
+                game.main_menu = False
+                game.bgm.volume = 1
+                game.bgm.play()
+
+                # take the effect in json
+                item_effect = self.gacha_data[2]["Effect"]
+                if item_effect:
+                    exec(item_effect)  # execute the python code in json
+
+
+                game.hero.level_old = game.hero.level
             game.clock.tick(60)
             return True
         return False
