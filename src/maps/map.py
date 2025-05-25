@@ -2,9 +2,8 @@ import pygame
 import os
 import sys
 import json
-
 from src.maps.obstacle.obstacle import Obstacle
-from src.logic.image_cache import ImageCache  # atau definisikan di sini juga
+from src.logic.image_cache import ImageCache
 
 
 class Map:
