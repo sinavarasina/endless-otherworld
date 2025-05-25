@@ -1,26 +1,36 @@
-from .hero_base import Hero_Base
 import pygame
 import math
 import os
-from ..bullets.Hero_Bullets.hero_bullet_A import Hero_Bullet_A
 from path_config import ASSET_DIR
+from src.components.get_image import SpriteSheet
+from ..bullets.Hero_Bullets.hero_bullet_A import Hero_Bullet_A
 
 
-class Hero(Hero_Base):
+class Hero:
     def __init__(self, map_width, map_height):
+        # === Hero Initialization ===
+        self.speed = 5
+        self.x = map_width // 2
+        self.y = map_height // 2
+        self.hp = 100  # for testing
+
         self.animation_path = os.path.join(ASSET_DIR, "Hero", "death_normal_down.png")
-        super().__init__(
-            self.animation_path,
-            48,
-            64,
-            (0, 0, 0),
-            50,
-            5,
-            3,
-            map_width,
-            map_height,
-            speed=5,
-        )
+        self.assets_path = self.animation_path
+
+        # animation
+        self.frame_width = 48
+        self.frame_height = 64
+        self.color_key = (0, 0, 0)
+        self.frame_delay = 50
+        self.current_frame = 0
+        self.frame_timer = 0
+        self.animation_speed = 5
+        self.scale = 3
+
+        self.set_animation(self.assets_path)
+        self.mask = pygame.mask.from_surface(self.frames[0])
+
+        # === Hero Specific Attributes ===
         self.hp_maxcap = 100
         self.hp = self.hp_maxcap
         self.attack = 20
@@ -36,6 +46,27 @@ class Hero(Hero_Base):
         self.xp_target = self._calculate_xp_target(self.level)
 
         self.score = 0
+
+    def set_animation(self, assets_path):
+        self.sprite_sheet = SpriteSheet(pygame.image.load(assets_path))
+        self.frames = [
+            self.sprite_sheet.get_image(
+                i, self.frame_width, self.frame_height, self.scale, self.color_key
+            )
+            for i in range(6)
+        ]
+        self.current_frame = 0
+        self.frame_timer = 0
+        self.mask = pygame.mask.from_surface(self.frames[0])
+
+    def update(self):
+        # animation
+        self.frame_timer += self.animation_speed
+        if self.frame_timer >= self.frame_delay:
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
+            self.frame_timer = 0
+
+        self.mask = pygame.mask.from_surface(self.frames[self.current_frame])
 
     def _calculate_xp_target(self, current_hero_level):
         if current_hero_level < 1:
@@ -159,7 +190,9 @@ class Hero(Hero_Base):
     #       pygame.draw.line(screen, (255, 255, 255), screen_tip, screen_side2, 2)
 
     def draw(self, screen, camera_x=0, camera_y=0):
-        super().draw(screen, camera_x, camera_y)
+        screen_x = self.x - camera_x
+        screen_y = self.y - camera_y
+        screen.blit(self.frames[self.current_frame], (screen_x, screen_y))
 
     #       self.draw_aiming_indicator(
     #           screen, camera_x, camera_y

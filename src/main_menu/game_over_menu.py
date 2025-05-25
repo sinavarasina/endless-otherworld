@@ -19,7 +19,7 @@ class GameOverMenu:
             "duration": duration_str,
         }
         self.game.score_crud.add_score(score_data)
-        print("Skor tersimpan:", score_data)
+        # print("Skor tersimpan:", score_data)
 
         hero_x, hero_y = hero.x, hero.y
 
