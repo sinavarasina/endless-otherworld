@@ -86,7 +86,7 @@ class GachaMenu:
             self.screen.blit(number_text, number_rect)
 
             # description from JSON
-            font_desc = pygame.font.Font(self.font, 30)
+            font_desc = pygame.font.Font(self.font, 20)
             description = self.gacha_data[i]["Description"]
             desc_text = font_desc.render(description, True, (255, 255, 255))
             desc_rect = desc_text.get_rect(center=(x + box_width // 2, y + box_height + 30))

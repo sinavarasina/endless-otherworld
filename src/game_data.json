@@ -1,7 +1,8 @@
 {
 "gacha_items":[
-    {"items":"heart1", "imagename": "heart1.png", "Description":"Heal the HP to 100%", "Effect": "game.hero.hp = game.hero.hp * 1.3"},
-    {"items":"heart2", "imagename": "heart2.png", "Description":"Boost HP to 300% for 1 minute", "Effect": ""},
-    {"items":"heart3", "imagename": "heart3.png", "Description":"Immortal for 10 second", "Effect": ""}
+    {"items":"heart1", "imagename": "heart1.png", "Description":"Heal the HP to 100%", "Effect": "game.hero.hp = 100"},
+    {"items":"heart2", "imagename": "heart2.png", "Description":"Boost HP to 300% for 1 minute", "Effect": "game.hero.hp"},
+    {"items":"heart3", "imagename": "heart3.png", "Description":"Attack +20, but HP decreased 50%", "Effect": "game.hero.hp = game.hero.hp * 0.5; game.hero.attack += 20"},
+    {"items":"killyourself", "imagename": "killyourself.png", "Description":"Kill yourself, leave from this miserable world.", "Effect": "game.hero.hp = 0"}
 ]
 }

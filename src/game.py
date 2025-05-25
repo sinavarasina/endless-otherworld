@@ -142,7 +142,7 @@ class Game:
                         if self.hero.bullet.check_collision(enemy):
                             # print("Enemy hit!") #it is debug thingy, dont turn on unless u know what u do, lmao #from someone: calm down bro its just print lol
                             # self.hero.bullet.active = False
-                            enemy.hp -= 25
+                            enemy.hp -= self.hero.attack
                             # self.hero.exp += 1  # faiq are ya crazy to set exp plus every shoot ya make, lol
                             # Leveling(self)
                             break
