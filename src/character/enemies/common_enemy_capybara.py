@@ -8,7 +8,7 @@ import os
 
 class Common_Enemy_Capybara(Enemy_Base):
     def __init__(self, spawn_x, spawn_y, map_width, map_height):
-        animation_path = os.path.join(ASSET_DIR, "Enemies", "capybaracute.png")
+        animation_path = os.path.join(ASSET_DIR, "Enemies", "CapybaraCute.png")
 
         super().__init__(
             animation_path, 64, 70, (0, 0, 0), 50, 10, 2.5, map_width, map_height
