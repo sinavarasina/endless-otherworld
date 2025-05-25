@@ -19,6 +19,9 @@ class HUD:
         self._draw_score()
         self._draw_top_score()
 
+    def draw_for_menu(self):
+        self._draw_top_score()
+
     # i think ist time to use some protected shit
     def _draw_hero_hp(self):
         # hp bar conf

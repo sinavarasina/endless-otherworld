@@ -7,6 +7,7 @@ class MainMenu:
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
+        self.game = game
         self.gameover = GameOverMenu(game)
 
     def draw(self):
@@ -34,7 +35,7 @@ class MainMenu:
         subtitle2_rect = subtitle2.get_rect(
             center=(self.screen_width // 2, self.screen_height // 2 + 350)
         )
-
+        self.game.hud.draw_for_menu()
         self.screen.blit(title, title_rect)
         self.screen.blit(subtitle, subtitle_rect)
         self.screen.blit(subtitle2, subtitle2_rect)
