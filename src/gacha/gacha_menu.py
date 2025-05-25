@@ -90,7 +90,7 @@ class GachaMenu:
         pygame.display.flip()
     
     # to update this menu in the game loop and checking to key interrupt
-    def update(self, game, camera_x, camera_y):
+    def update(self, game):
         if game.hero.level != game.hero.level_old:
             self.draw()
             game.bgm.volume = 0.2
@@ -103,6 +103,43 @@ class GachaMenu:
                 game.bgm.play()
                 game.hero.level_old = game.hero.level
 
+            # chose one of the 3 items
+            elif keys[pygame.K_1]:
+                game.main_menu = False
+                game.bgm.volume = 1
+                game.bgm.play()
+                
+                # take the effect in json
+                item_effect = self.gacha_data[0]["Effect"]
+                if item_effect:
+                    exec(item_effect)  # execute the python code in json
+                            
+                game.hero.level_old = game.hero.level
+
+            elif keys[pygame.K_2]:
+                game.main_menu = False
+                game.bgm.volume = 1
+                game.bgm.play()
+
+                # take the effect in json
+                item_effect = self.gacha_data[1]["Effect"]
+                if item_effect:
+                    exec(item_effect)  # execute the python code in json
+
+
+                game.hero.level_old = game.hero.level
+            elif keys[pygame.K_3]:
+                game.main_menu = False
+                game.bgm.volume = 1
+                game.bgm.play()
+
+                # take the effect in json
+                item_effect = self.gacha_data[2]["Effect"]
+                if item_effect:
+                    exec(item_effect)  # execute the python code in json
+
+
+                game.hero.level_old = game.hero.level
             game.clock.tick(60)
             return True
         return False
