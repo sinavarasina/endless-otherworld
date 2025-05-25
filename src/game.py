@@ -128,7 +128,9 @@ class Game:
                 # fuckin' off hp 0's enemies. #from faiq: lol this comment is hillarious
                 if enemy.hp <= 0:
                     self.hero.exp += enemy.killed_exp
-                    self.hero.level_update()
+                    self.hero.score += enemy.killed_exp
+                    if self.hero.level_update():
+                        self.hero.lvl_up_shuffle = True
                     self.enemies.remove(enemy)
 
             # Update hero bullet
@@ -155,6 +157,7 @@ class Game:
 
             if self.tick % 60 == 0:
                 self.second += 1
+                self.hero.score += 1
             pygame.display.flip()
             self.clock.tick(60)
 

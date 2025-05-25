@@ -7,12 +7,13 @@ import random
 from path_config import ASSET_DIR
 from path_config import FONT_DIR
 
+
 class GachaMenu:
     @staticmethod
     def load_gacha_data(json_path):
-        with open(json_path, 'r') as f:
+        with open(json_path, "r") as f:
             data = json.load(f)
-        return data['gacha_items'] 
+        return data["gacha_items"]
 
     def __init__(self, screen, screen_width, screen_height, json_path):
         self.screen = screen
@@ -20,16 +21,16 @@ class GachaMenu:
         self.screen_height = screen_height
         self.item_size = (200, 200)
 
-        self.gacha_data = GachaMenu.load_gacha_data(json_path)
-
-        # Shuffle data dan ambil 3 item pertama
-        random.shuffle(self.gacha_data)
-        self.gacha_data = self.gacha_data[:3]
-
+        self.gacha_data_load = GachaMenu.load_gacha_data(json_path)
+        self.shuffle_trigger = False
         self.item_images = []
         self.font = os.path.join(FONT_DIR, "bloodcrow.ttf")
-        
-        # looping for every image
+        self.gacha_menu_loop = False
+
+    def reshuffle_data(self):
+        self.item_images = []
+        random.shuffle(self.gacha_data_load)
+        self.gacha_data = self.gacha_data_load[:3]
         for item in self.gacha_data:
             key = list(item.keys())[1]
             image_name = item[key]
@@ -54,23 +55,25 @@ class GachaMenu:
             "Press 1 or 2 or 3 to select the item", True, (200, 200, 200)
         )
         title_rect = title.get_rect(center=(self.screen_width // 2, 100))
-        subtitle2_rect = subtitle2.get_rect(center=(self.screen_width // 2, self.screen_height - 100))
+        subtitle2_rect = subtitle2.get_rect(
+            center=(self.screen_width // 2, self.screen_height - 100)
+        )
 
         self.screen.blit(title, title_rect)
         self.screen.blit(subtitle2, subtitle2_rect)
-        
+
         box_width, box_height = self.item_size
         spacing = 300
         total_width = 3 * box_width + 2 * spacing
         start_x = (self.screen_width - total_width) // 2
         y = self.screen_height // 2 - box_height // 2
 
-        
         for i in range(3):
             x = start_x + i * (box_width + spacing)
 
             # shaking animation to image
             # you wanna got a shake huh >w<
+            # by faiq fedorach, UwU
             offset_x = random.randint(-2, 2)
             offset_y = random.randint(-2, 2)
 
@@ -82,21 +85,30 @@ class GachaMenu:
             # number in the top of items image
             font_number = pygame.font.Font(self.font, 50)
             number_text = font_number.render(str(i + 1), True, (255, 255, 255))
-            number_rect = number_text.get_rect(center=(x + box_width // 2, y + box_height - 250))
+            number_rect = number_text.get_rect(
+                center=(x + box_width // 2, y + box_height - 250)
+            )
             self.screen.blit(number_text, number_rect)
 
             # description from JSON
             font_desc = pygame.font.Font(self.font, 20)
             description = self.gacha_data[i]["Description"]
             desc_text = font_desc.render(description, True, (255, 255, 255))
-            desc_rect = desc_text.get_rect(center=(x + box_width // 2, y + box_height + 30))
+            desc_rect = desc_text.get_rect(
+                center=(x + box_width // 2, y + box_height + 30)
+            )
             self.screen.blit(desc_text, desc_rect)
 
         pygame.display.flip()
-    
+
     # to update this menu in the game loop and checking to key interrupt
     def update(self, game):
-        if game.hero.level != game.hero.level_old:
+        if game.hero.lvl_up_shuffle or self.gacha_menu_loop:
+            self.gacha_menu_loop = True
+            if game.hero.lvl_up_shuffle:
+                self.reshuffle_data()
+                game.hero.lvl_up_shuffle = False
+
             self.draw()
             game.bgm.volume = 0.2
             game.bgm.play()
@@ -107,13 +119,14 @@ class GachaMenu:
                 game.main_menu = False
                 game.bgm.volume = 1
                 game.bgm.play()
-                
+
                 # take the effect in json
                 item_effect = self.gacha_data[0]["Effect"]
                 if item_effect:
                     exec(item_effect)  # execute the python code in json
-                            
-                game.hero.level_old = game.hero.level
+
+                # game.hero.level_old = game.hero.level
+                self.gacha_menu_loop = False
 
             elif keys[pygame.K_2]:
                 game.main_menu = False
@@ -125,8 +138,9 @@ class GachaMenu:
                 if item_effect:
                     exec(item_effect)  # execute the python code in json
 
+                # game.hero.level_old = game.hero.level
+                self.gacha_menu_loop = False
 
-                game.hero.level_old = game.hero.level
             elif keys[pygame.K_3]:
                 game.main_menu = False
                 game.bgm.volume = 1
@@ -137,8 +151,9 @@ class GachaMenu:
                 if item_effect:
                     exec(item_effect)  # execute the python code in json
 
+                # game.hero.level_old = game.hero.level
+                self.gacha_menu_loop = False
 
-                game.hero.level_old = game.hero.level
             game.clock.tick(60)
             return True
         return False

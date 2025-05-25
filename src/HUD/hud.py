@@ -3,6 +3,7 @@ import pygame
 import os
 from path_config import FONT_DIR
 
+
 class HUD:
     def __init__(self, game):
         self.game = game
@@ -15,6 +16,7 @@ class HUD:
         self._draw_time()
         self._draw_exp()
         self._draw_leveling_bar()
+        self._draw_score()
 
     # i think ist time to use some protected shit
     def _draw_hero_hp(self):
@@ -142,3 +144,14 @@ class HUD:
         pygame.draw.rect(
             self.game.screen, fill_color, (*bar_position, current_width, bar_height)
         )
+
+    def _draw_score(self):
+        score_text = self.medium_font.render(
+            f"SCORE: {self.game.hero.score}", True, (255, 255, 255)
+        )
+        text_rect = score_text.get_rect()
+        text_rect.bottomleft = (
+            200,
+            self.game.SCREEN_HEIGHT - 50,
+        )
+        self.game.screen.blit(score_text, text_rect)
