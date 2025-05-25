@@ -37,6 +37,7 @@ class Map:
             ("StonesFreeWenrexa/00.png", (6000, 2000)),
             ("StonesFreeWenrexa/12.png", (2700, 6700)),
             ("StonesFreeWenrexa/13.png", (1600, 3600)),
+            ("stone/stone.png", (2000, 2300)),
         ]
 
         for img_path, pos in obstacle_data:
