@@ -21,6 +21,11 @@ class GachaMenu:
         self.item_size = (200, 200)
 
         self.gacha_data = GachaMenu.load_gacha_data(json_path)
+
+        # Shuffle data dan ambil 3 item pertama
+        random.shuffle(self.gacha_data)
+        self.gacha_data = self.gacha_data[:3]
+
         self.item_images = []
         self.font = os.path.join(FONT_DIR, "bloodcrow.ttf")
         
@@ -97,14 +102,8 @@ class GachaMenu:
             game.bgm.play()
 
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_RETURN]:
-                game.main_menu = False
-                game.bgm.volume = 1
-                game.bgm.play()
-                game.hero.level_old = game.hero.level
-
             # chose one of the 3 items
-            elif keys[pygame.K_1]:
+            if keys[pygame.K_1]:
                 game.main_menu = False
                 game.bgm.volume = 1
                 game.bgm.play()
