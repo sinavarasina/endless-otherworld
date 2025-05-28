@@ -8,15 +8,15 @@ import os
 
 class Common_Enemy_Capybara(Enemy_Base):
     def __init__(self, spawn_x, spawn_y, map_width, map_height):
-        animation_path = os.path.join(ASSET_DIR, "Enemies", "capybara.png")
+        animation_path = os.path.join(ASSET_DIR, "Enemies", "bigcapybara.png")
 
         super().__init__(
             animation_path, 64, 70, (0, 0, 0), 50, 10, 2.5, map_width, map_height
         )
         self.speed = 2
         self.bullet = EnemyBulletCapybara(owner=self)
-        self.hp = 100  # for testing, i use 1 hp
-        self.killed_exp = 95
+        self.hp = 110  # for testing, i use 1 hp
+        self.killed_exp = 90
         # moved to EnemyGenerator, i kept it commented out as backup
         # if smtg fvck up happen
         # self.x = hero_x + random.randint(960, 1100) * random.choice([-1, 1])
