@@ -4,7 +4,7 @@
     {"items":"heart2", "imagename": "heart2.png", "Description":"Boost HP to 300% for 1 minute", "Effect": "game.hero.hp_maxcap *= 3"},
     {"items":"heart3", "imagename": "heart3.png", "Description":"Attack +20, but HP decreased 50%", "Effect": "game.hero.hp -= game.hero.hp/2; game.hero.attack += 20"},
     {"items":"killyourself", "imagename": "killyourself.png", "Description":"Kill yourself, leave from this miserable world.", "Effect": "game.hero.hp = 0"},
-    {"items":"ring1", "imagename": "rings1.png", "Description":"++Attack speed", "Effect": "game.hero.hp = 0"},
-    {"items":"ring2", "imagename": "rings2.png", "Description":"++Bullet speed", "Effect": "game.hero.hp = 0"}
+    {"items":"ring1", "imagename": "rings1.png", "Description":"++Attack speed", "Effect": "game.hero.bullet.speed += 5"},
+    {"items":"ring2", "imagename": "rings2.png", "Description":"++Bullet speed", "Effect": "game.hero.bullet.animation.animation_speed += 2"}
 ]
 }
