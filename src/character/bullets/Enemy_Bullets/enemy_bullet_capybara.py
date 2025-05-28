@@ -1,3 +1,4 @@
+from typing import override
 import pygame
 import os
 import math
@@ -14,9 +15,7 @@ class EnemyBulletCapybara(Bullet):
         self.speed = 15
         self.timeout = 1
 
-        bullet_image_path = os.path.join(
-            ASSET_DIR, "Bullet", "bluetornadobullet.png"
-        )
+        bullet_image_path = os.path.join(ASSET_DIR, "Bullet", "bluetornadobullet.png")
         sprite_sheet = SpriteSheet(pygame.image.load(bullet_image_path).convert_alpha())
 
         self.animation = BulletAnimation(

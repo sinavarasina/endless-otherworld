@@ -2,9 +2,10 @@ import pygame
 import os
 from path_config import ASSET_DIR
 from src.components.get_image import SpriteSheet
+from abc import ABC, abstractmethod
 
 
-class Enemy_Base:
+class Enemy_Base(ABC):
     def __init__(
         self,
         assets_path,
@@ -21,7 +22,7 @@ class Enemy_Base:
         self.speed = speed
         self.x = map_width // 2
         self.y = map_height // 2
-        self.hp = 1000 # for testing
+        self.hp = 1000  # for testing
 
         self.assets_path = assets_path
 
@@ -60,6 +61,11 @@ class Enemy_Base:
 
         self.mask = pygame.mask.from_surface(self.frames[self.current_frame])
 
+    @abstractmethod
+    def update(self, target_x, target_y, obstacle_list=None):
+        pass
+
+    @abstractmethod
     def draw(self, screen, camera_x=0, camera_y=0):
         screen_x = self.x - camera_x
         screen_y = self.y - camera_y
