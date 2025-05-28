@@ -1,4 +1,3 @@
-from typing import override
 import pygame
 import os
 import math
@@ -28,7 +27,6 @@ class EnemyBulletCapybara(Bullet):
             frame_delay=10,
         )
 
-    @override  # even python override it by default, but yeah we just define it, for reports
     def update(self, target_x=None, target_y=None):
         if target_x is None or target_y is None:
             return super().update()
