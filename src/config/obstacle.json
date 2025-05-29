@@ -140,20 +140,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/03.png",
-    "position": [
-      6500,
-      6746
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/08.png",
-    "position": [
-      3739,
-      299
-    ]
-  },
-  {
     "image": "stone/stone.png",
     "position": [
       4116,
@@ -462,13 +448,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/05.png",
-    "position": [
-      9173,
-      8542
-    ]
-  },
-  {
     "image": "stone/stone.png",
     "position": [
       4370,
@@ -504,13 +483,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/12.png",
-    "position": [
-      773,
-      437
-    ]
-  },
-  {
     "image": "Trees/AutumnTree_Sprite_120pxl.png",
     "position": [
       5618,
@@ -539,24 +511,10 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/02.png",
-    "position": [
-      6257,
-      2172
-    ]
-  },
-  {
     "image": "stone/stone.png",
     "position": [
       5636,
       3701
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/01.png",
-    "position": [
-      6787,
-      4612
     ]
   },
   {
@@ -595,13 +553,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/06.png",
-    "position": [
-      271,
-      7156
-    ]
-  },
-  {
     "image": "stone/stone.png",
     "position": [
       7583,
@@ -627,13 +578,6 @@
     "position": [
       3514,
       4406
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/00.png",
-    "position": [
-      1457,
-      2504
     ]
   },
   {
@@ -777,13 +721,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/02.png",
-    "position": [
-      142,
-      9171
-    ]
-  },
-  {
     "image": "Trees/GreenTree_Sprite.png",
     "position": [
       8387,
@@ -823,13 +760,6 @@
     "position": [
       1737,
       611
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/11.png",
-    "position": [
-      3542,
-      8545
     ]
   },
   {
@@ -896,13 +826,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/14.png",
-    "position": [
-      6107,
-      126
-    ]
-  },
-  {
     "image": "Trees/AutumnTree_Sprite_120pxl.png",
     "position": [
       5565,
@@ -942,20 +865,6 @@
     "position": [
       3022,
       4005
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/13.png",
-    "position": [
-      1127,
-      4596
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/07.png",
-    "position": [
-      8964,
-      3553
     ]
   },
   {
@@ -1043,13 +952,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/01.png",
-    "position": [
-      4024,
-      6131
-    ]
-  },
-  {
     "image": "stone/stone.png",
     "position": [
       403,
@@ -1131,13 +1033,6 @@
     "position": [
       4991,
       4947
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/04.png",
-    "position": [
-      9165,
-      6488
     ]
   },
   {
@@ -1575,13 +1470,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/09.png",
-    "position": [
-      7148,
-      8878
-    ]
-  },
-  {
     "image": "Trees/BrokenTree_Sprite.png",
     "position": [
       3701,
@@ -1673,13 +1561,6 @@
     ]
   },
   {
-    "image": "StonesFreeWenrexa/00.png",
-    "position": [
-      4088,
-      3783
-    ]
-  },
-  {
     "image": "stone/stone.png",
     "position": [
       8891,
@@ -1719,13 +1600,6 @@
     "position": [
       7681,
       7924
-    ]
-  },
-  {
-    "image": "StonesFreeWenrexa/10.png",
-    "position": [
-      8929,
-      1509
     ]
   },
   {
