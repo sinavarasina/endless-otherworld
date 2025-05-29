@@ -30,7 +30,7 @@ class HUD:
         bar_height = 20
         border_color = (255, 255, 255)
 
-        hp_percentage = max(0, min(self.game.hero.hp, 100))
+        hp_percentage = max(0, min(self.game.hero.hp, self.game.hero.hp_maxcap))
         if hp_percentage > 75:
             fill_color = (0, 255, 0)
         elif hp_percentage > 25:
