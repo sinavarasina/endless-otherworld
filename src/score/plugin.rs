@@ -23,7 +23,7 @@ fn handle_game_over_score(
 
 impl Plugin for ScorePlugin {
     fn build(&self, app: &mut App) {
-        let manager = ScoreManager::load_from_file("assets/config/score.json");
+        let manager = ScoreManager::load_default();
         app.insert_resource(manager)
             .add_systems(Update, handle_game_over_score);
     }

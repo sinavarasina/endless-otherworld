@@ -7,8 +7,7 @@ pub struct GachaPlugin;
 
 impl Plugin for GachaPlugin {
     fn build(&self, app: &mut App) {
-        let deck = GachaDeck::load_from_file("assets/config/game_data.json");
-        app.insert_resource(deck)
+        app.insert_resource(GachaDeck::load_embedded())
             .add_systems(OnEnter(GameState::GachaMenu), spawn_gacha_menu)
             .add_systems(Update, gacha_input_system.run_if(in_state(GameState::GachaMenu)))
             .add_systems(OnExit(GameState::GachaMenu), despawn_gacha_menu);

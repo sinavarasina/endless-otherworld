@@ -8,14 +8,13 @@ pub fn setup_camera_and_map(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
-    // Spawn 2D Camera
     commands.spawn((
         Camera2d,
         Transform::from_xyz(HALF_MAP_SIZE, HALF_MAP_SIZE, 1000.0),
         MainCamera,
     ));
 
-    // Spawn Background Ground Map
+    // Map background (stretched across 10000x10000 world)
     commands.spawn((
         MapBackground,
         Sprite {
@@ -45,9 +44,11 @@ pub fn camera_follow_player_system(
         (WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0)
     };
 
-    let target_x = player_transform.translation.x.clamp(half_w, MAP_SIZE - half_w);
-    let target_y = player_transform.translation.y.clamp(half_h, MAP_SIZE - half_h);
+    let min_x = half_w;
+    let max_x = (MAP_SIZE - half_w).max(half_w);
+    let min_y = half_h;
+    let max_y = (MAP_SIZE - half_h).max(half_h);
 
-    camera_transform.translation.x = target_x;
-    camera_transform.translation.y = target_y;
+    camera_transform.translation.x = player_transform.translation.x.clamp(min_x, max_x);
+    camera_transform.translation.y = player_transform.translation.y.clamp(min_y, max_y);
 }

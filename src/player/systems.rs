@@ -11,7 +11,6 @@ pub fn spawn_player(
     player_assets: Res<PlayerAssets>,
     existing_player: Query<Entity, With<Player>>,
 ) {
-    // If player already exists, don't spawn duplicate
     if !existing_player.is_empty() {
         return;
     }
@@ -22,7 +21,7 @@ pub fn spawn_player(
         PlayerExperience::default(),
         PlayerFacing::IdleDown,
         PlayerScore::default(),
-        Collider::new(30.0),
+        Collider::new(26.0),
         Sprite {
             image: player_assets.idle_down.clone(),
             texture_atlas: Some(TextureAtlas {
@@ -62,40 +61,34 @@ pub fn player_movement(
     }
 
     if dir != Vec2::ZERO {
-        let normalized = dir.normalize();
-        let move_delta = normalized * stats.speed * time.delta_secs();
+        let dt = time.delta_secs();
+        let move_step = dir.normalize() * stats.speed * dt;
+        let mut pos = transform.translation.truncate() + move_step;
 
-        let current_pos = transform.translation.truncate();
-        let target_pos_x = Vec2::new(current_pos.x + move_delta.x, current_pos.y);
-        let target_pos_y = Vec2::new(current_pos.x, current_pos.y + move_delta.y);
+        // Smooth sliding circle separation against nearby obstacles (radius < 150)
+        for (obs_trans, obs_col) in obstacles_q.iter() {
+            let obs_pos = obs_trans.translation.truncate();
+            let min_dist = player_collider.radius + obs_col.radius;
+            let diff = pos - obs_pos;
+            let dist_sq = diff.length_squared();
 
-        // Slide along X if no obstacle collision
-        let mut final_pos = current_pos;
-        let collides_x = obstacles_q.iter().any(|(obs_transform, obs_collider)| {
-            player_collider.intersects(target_pos_x, obs_collider, obs_transform.translation.truncate())
-        });
-        if !collides_x {
-            final_pos.x = target_pos_x.x;
-        }
-
-        // Slide along Y if no obstacle collision
-        let collides_y = obstacles_q.iter().any(|(obs_transform, obs_collider)| {
-            player_collider.intersects(
-                Vec2::new(final_pos.x, target_pos_y.y),
-                obs_collider,
-                obs_transform.translation.truncate(),
-            )
-        });
-        if !collides_y {
-            final_pos.y = target_pos_y.y;
+            if dist_sq < min_dist * min_dist {
+                if dist_sq > 0.0001 {
+                    let dist = dist_sq.sqrt();
+                    let normal = diff / dist;
+                    pos = obs_pos + normal * min_dist;
+                } else {
+                    pos.x += min_dist;
+                }
+            }
         }
 
         // Clamp to map boundaries
-        final_pos.x = final_pos.x.clamp(50.0, MAP_SIZE - 50.0);
-        final_pos.y = final_pos.y.clamp(50.0, MAP_SIZE - 50.0);
+        pos.x = pos.x.clamp(50.0, MAP_SIZE - 50.0);
+        pos.y = pos.y.clamp(50.0, MAP_SIZE - 50.0);
 
-        transform.translation.x = final_pos.x;
-        transform.translation.y = final_pos.y;
+        transform.translation.x = pos.x;
+        transform.translation.y = pos.y;
     }
 }
 

@@ -19,6 +19,7 @@ pub fn enemy_movement_system(
         return;
     };
     let player_pos = player_transform.translation.truncate();
+    let dt = time.delta_secs();
 
     let target_offsets = [
         Vec2::ZERO,
@@ -54,42 +55,33 @@ pub fn enemy_movement_system(
         }
 
         let direction = to_target.normalize();
-        let move_delta = direction * stats.speed * time.delta_secs();
+        let mut pos = current_pos + direction * stats.speed * dt;
 
-        let target_x = Vec2::new(current_pos.x + move_delta.x, current_pos.y);
-        let target_y = Vec2::new(current_pos.x, current_pos.y + move_delta.y);
+        // Ghost ignores obstacles, others slide around
+        if *kind != EnemyKind::Ghost {
+            for (obs_trans, obs_col) in obstacles_q.iter() {
+                let obs_pos = obs_trans.translation.truncate();
+                let min_dist = collider.radius + obs_col.radius;
+                let diff = pos - obs_pos;
+                let dist_sq = diff.length_squared();
 
-        let mut final_pos = current_pos;
-
-        // Ghost ignores obstacles, other monsters slide around obstacles
-        if *kind == EnemyKind::Ghost {
-            final_pos += move_delta;
-        } else {
-            let collides_x = obstacles_q.iter().any(|(obs_transform, obs_collider)| {
-                collider.intersects(target_x, obs_collider, obs_transform.translation.truncate())
-            });
-            if !collides_x {
-                final_pos.x = target_x.x;
-            }
-
-            let collides_y = obstacles_q.iter().any(|(obs_transform, obs_collider)| {
-                collider.intersects(
-                    Vec2::new(final_pos.x, target_y.y),
-                    obs_collider,
-                    obs_transform.translation.truncate(),
-                )
-            });
-            if !collides_y {
-                final_pos.y = target_y.y;
+                if dist_sq < min_dist * min_dist {
+                    if dist_sq > 0.0001 {
+                        let dist = dist_sq.sqrt();
+                        let normal = diff / dist;
+                        pos = obs_pos + normal * min_dist;
+                    } else {
+                        pos.x += min_dist;
+                    }
+                }
             }
         }
 
-        // Keep inside map bounds
-        final_pos.x = final_pos.x.clamp(30.0, MAP_SIZE - 30.0);
-        final_pos.y = final_pos.y.clamp(30.0, MAP_SIZE - 30.0);
+        pos.x = pos.x.clamp(30.0, MAP_SIZE - 30.0);
+        pos.y = pos.y.clamp(30.0, MAP_SIZE - 30.0);
 
-        transform.translation.x = final_pos.x;
-        transform.translation.y = final_pos.y;
+        transform.translation.x = pos.x;
+        transform.translation.y = pos.y;
     }
 }
 

@@ -1,12 +1,10 @@
 use bevy::prelude::*;
 use serde::Deserialize;
-use std::fs::File;
-use std::io::BufReader;
 
 use crate::gacha::components::{GachaEffect, GachaItem};
 
 #[derive(Deserialize, Debug)]
-struct RawGachaItem {
+struct RawItem {
     items: String,
     imagename: String,
     #[serde(rename = "Description")]
@@ -14,8 +12,8 @@ struct RawGachaItem {
 }
 
 #[derive(Deserialize, Debug)]
-struct RawGachaData {
-    gacha_items: Vec<RawGachaItem>,
+struct RawData {
+    gacha_items: Vec<RawItem>,
 }
 
 #[derive(Resource, Debug, Default, Clone)]
@@ -24,20 +22,13 @@ pub struct GachaDeck {
 }
 
 impl GachaDeck {
-    pub fn load_from_file(config_path: &str) -> Self {
-        let file = match File::open(config_path) {
-            Ok(f) => f,
-            Err(err) => {
-                warn!("Could not open gacha config at {}: {}", config_path, err);
-                return Self::default();
-            }
-        };
+    pub fn load_embedded() -> Self {
+        const CONFIG_JSON: &str = include_str!("../../assets/config/game_data.json");
 
-        let reader = BufReader::new(file);
-        let raw_data: RawGachaData = match serde_json::from_reader(reader) {
+        let raw_data: RawData = match serde_json::from_str(CONFIG_JSON) {
             Ok(data) => data,
             Err(err) => {
-                warn!("Failed to parse gacha config: {}", err);
+                warn!("Failed to parse embedded gacha config: {}", err);
                 return Self::default();
             }
         };
@@ -65,7 +56,6 @@ impl GachaDeck {
             })
             .collect();
 
-        info!("Loaded {} gacha items into deck", items.len());
         Self { items }
     }
 }
