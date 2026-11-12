@@ -29,7 +29,12 @@ pub fn spawn_hud_system(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     score_manager: Option<Res<ScoreManager>>,
+    existing_hud_q: Query<Entity, With<HudRoot>>,
 ) {
+    if !existing_hud_q.is_empty() {
+        return;
+    }
+
     let font_handle: Handle<Font> = asset_server.load("font/bloodcrow.ttf");
 
     commands
@@ -192,7 +197,7 @@ pub fn update_hud_system(
 
     // Update HP Bar and Text
     let hp_pct = (stats.hp / stats.max_hp.max(1.0)).clamp(0.0, 1.0);
-    if let Ok((mut bar_node, mut bar_color)) = hp_bar_q.get_single_mut() {
+    for (mut bar_node, mut bar_color) in hp_bar_q.iter_mut() {
         bar_node.width = Val::Percent(hp_pct * 100.0);
         let color = if hp_pct > 0.75 {
             Color::srgb(0.0, 1.0, 0.0)
@@ -204,23 +209,23 @@ pub fn update_hud_system(
         *bar_color = BackgroundColor(color);
     }
 
-    if let Ok(mut text) = hp_text_q.get_single_mut() {
+    for mut text in hp_text_q.iter_mut() {
         **text = format!("HP: {:.0} / {:.0}", stats.hp.max(0.0), stats.max_hp);
     }
 
     // Update Level & EXP text
-    if let Ok(mut text) = level_exp_text_q.get_single_mut() {
+    for mut text in level_exp_text_q.iter_mut() {
         **text = format!("Level: {}  |  EXP: {} / {}", exp.level, exp.exp, exp.xp_target);
     }
 
     // Update Leveling Progress Bar along bottom
     let exp_pct = ((exp.exp as f32) / (exp.xp_target as f32).max(1.0)).clamp(0.0, 1.0);
-    if let Ok(mut bar_node) = level_bar_q.get_single_mut() {
+    for mut bar_node in level_bar_q.iter_mut() {
         bar_node.width = Val::Percent(exp_pct * 100.0);
     }
 
     // Update Score & Time text
-    if let Ok(mut text) = score_time_text_q.get_single_mut() {
+    for mut text in score_time_text_q.iter_mut() {
         **text = format!("SCORE: {}  |  Time: {}s", score.score, score.survival_seconds);
     }
 }
@@ -231,3 +236,70 @@ pub fn despawn_hud_system(
 ) {
     cleanup_entities::<HudRoot>(commands, query);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::core::state::GameState;
+    use crate::ui::UiPlugin;
+
+    #[test]
+    fn test_hud_lifecycle() {
+        let mut app = App::new();
+        app.add_plugins(MinimalPlugins);
+        app.add_plugins(bevy::state::app::StatesPlugin);
+        app.add_plugins(AssetPlugin::default());
+        app.init_asset::<Font>();
+        app.init_resource::<ButtonInput<KeyCode>>();
+        app.init_resource::<UiScale>();
+        app.init_state::<GameState>();
+        app.add_plugins(UiPlugin);
+
+        // Frame 1: MainMenu
+        app.update();
+        let hud_count = app.world_mut().query_filtered::<Entity, With<HudRoot>>().iter(app.world()).count();
+        assert_eq!(hud_count, 0, "HUD should not exist in MainMenu");
+
+        // Transition: MainMenu -> Playing
+        app.world_mut().resource_mut::<NextState<GameState>>().set(GameState::Playing);
+        app.update(); // transition happens
+        app.update(); // frame in Playing
+        let hud_count = app.world_mut().query_filtered::<Entity, With<HudRoot>>().iter(app.world()).count();
+        let text_count = app.world_mut().query_filtered::<Entity, With<LevelExpText>>().iter(app.world()).count();
+        assert_eq!(hud_count, 1, "Exactly one HUD in Playing");
+        assert_eq!(text_count, 1, "Exactly one LevelExpText in Playing");
+
+        // Transition: Playing -> GachaMenu
+        app.world_mut().resource_mut::<NextState<GameState>>().set(GameState::GachaMenu);
+        app.update(); // transition happens
+        app.update(); // frame in GachaMenu
+        let hud_count = app.world_mut().query_filtered::<Entity, With<HudRoot>>().iter(app.world()).count();
+        let text_count = app.world_mut().query_filtered::<Entity, With<LevelExpText>>().iter(app.world()).count();
+        assert_eq!(hud_count, 0, "HUD should be despawned during GachaMenu");
+        assert_eq!(text_count, 0, "No HUD text during GachaMenu");
+
+        // Transition: GachaMenu -> Playing
+        app.world_mut().resource_mut::<NextState<GameState>>().set(GameState::Playing);
+        app.update(); // transition happens
+        app.update(); // frame in Playing
+        let hud_count = app.world_mut().query_filtered::<Entity, With<HudRoot>>().iter(app.world()).count();
+        let text_count = app.world_mut().query_filtered::<Entity, With<LevelExpText>>().iter(app.world()).count();
+        assert_eq!(hud_count, 1, "Exactly one HUD when returning to Playing");
+        assert_eq!(text_count, 1, "Exactly one LevelExpText when returning to Playing");
+
+        // Transition: Playing -> GachaMenu again (second level up)
+        app.world_mut().resource_mut::<NextState<GameState>>().set(GameState::GachaMenu);
+        app.update();
+        app.update();
+
+        // Transition: GachaMenu -> Playing again
+        app.world_mut().resource_mut::<NextState<GameState>>().set(GameState::Playing);
+        app.update();
+        app.update();
+        let hud_count = app.world_mut().query_filtered::<Entity, With<HudRoot>>().iter(app.world()).count();
+        let text_count = app.world_mut().query_filtered::<Entity, With<LevelExpText>>().iter(app.world()).count();
+        assert_eq!(hud_count, 1, "Still exactly one HUD after multiple level ups");
+        assert_eq!(text_count, 1, "Still exactly one LevelExpText after multiple level ups");
+    }
+}
+

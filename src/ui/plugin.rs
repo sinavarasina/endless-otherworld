@@ -37,7 +37,7 @@ impl Plugin for UiPlugin {
                 Update,
                 update_hud_system.run_if(in_state(GameState::Playing)),
             )
-            .add_systems(OnExit(GameState::Playing), despawn_hud_system.run_if(not(in_state(GameState::GachaMenu))))
+            .add_systems(OnExit(GameState::Playing), despawn_hud_system)
             // Game Over Menu
             .add_systems(OnEnter(GameState::GameOver), spawn_game_over_system)
             .add_systems(
