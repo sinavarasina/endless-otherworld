@@ -8,20 +8,18 @@
 
 ## Library, Frameworks & Tools Used
 
-- Python 3.13
-- PyGame
-
-<i> Make sure you have Python 3.13 installed in your computer(other version might not work)</i>
+- Rust (Edition 2024)
+- Bevy Engine 0.15
 
 ## How to play
-1. Copy this repository
+1. Go into the root folder
+2. Run the game:
+```bash
+cargo run --release
 ```
-git clone https://github.com/sinavarasina/endless-otherworld.git
-```
-2. Go into the root folder
-3. Run the game
-```
-python main.py
+Or run the unit tests:
+```bash
+cargo test
 ```
 
 ## Contributor

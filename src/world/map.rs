@@ -1,0 +1,53 @@
+use bevy::prelude::*;
+
+use crate::core::constants::*;
+use crate::player::components::Player;
+use crate::world::components::{MainCamera, MapBackground};
+
+pub fn setup_camera_and_map(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+) {
+    // Spawn 2D Camera
+    commands.spawn((
+        Camera2d,
+        Transform::from_xyz(HALF_MAP_SIZE, HALF_MAP_SIZE, 1000.0),
+        MainCamera,
+    ));
+
+    // Spawn Background Ground Map
+    commands.spawn((
+        MapBackground,
+        Sprite {
+            image: asset_server.load("images/Map/Ground/map_pbo_fix.png"),
+            custom_size: Some(Vec2::new(MAP_SIZE, MAP_SIZE)),
+            ..default()
+        },
+        Transform::from_xyz(HALF_MAP_SIZE, HALF_MAP_SIZE, Z_BACKGROUND),
+    ));
+}
+
+pub fn camera_follow_player_system(
+    player_q: Query<&Transform, (With<Player>, Without<MainCamera>)>,
+    mut camera_q: Query<&mut Transform, With<MainCamera>>,
+    windows: Query<&Window>,
+) {
+    let Ok(player_transform) = player_q.get_single() else {
+        return;
+    };
+    let Ok(mut camera_transform) = camera_q.get_single_mut() else {
+        return;
+    };
+
+    let (half_w, half_h) = if let Ok(window) = windows.get_single() {
+        (window.width() / 2.0, window.height() / 2.0)
+    } else {
+        (WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0)
+    };
+
+    let target_x = player_transform.translation.x.clamp(half_w, MAP_SIZE - half_w);
+    let target_y = player_transform.translation.y.clamp(half_h, MAP_SIZE - half_h);
+
+    camera_transform.translation.x = target_x;
+    camera_transform.translation.y = target_y;
+}
