@@ -1,10 +1,82 @@
 {
-"gacha_items":[
-    {"items":"heart1", "imagename": "heart1.png", "Description":"Heal the HP to 100%", "Effect": "game.hero.hp = game.hero.hp_maxcap"},
-    {"items":"heart2", "imagename": "heart2.png", "Description":"Boost HP to 300% for 1 minute", "Effect": "game.hero.hp_maxcap *= 3"},
-    {"items":"heart3", "imagename": "heart3.png", "Description":"Attack +20, but HP decreased 50%", "Effect": "game.hero.hp -= game.hero.hp/2; game.hero.attack += 20"},
-    {"items":"killyourself", "imagename": "killyourself.png", "Description":"Kill yourself, leave from this miserable world.", "Effect": "game.hero.hp = 0"},
-    {"items":"ring1", "imagename": "rings1.png", "Description":"++Attack speed", "Effect": "game.hero.bullet.speed += 5"},
-    {"items":"ring2", "imagename": "rings2.png", "Description":"++Bullet speed", "Effect": "game.hero.bullet.animation.animation_speed += 2"}
-]
+  "gacha_items": [
+    {
+      "items": "heart1",
+      "imagename": "heart1.png",
+      "Description": "Full Recovery: Restore HP to 100%",
+      "Effect": "HealFull"
+    },
+    {
+      "items": "heart2",
+      "imagename": "heart2.png",
+      "Description": "Colossus: Boost Max HP by 50% & heal",
+      "Effect": "BoostHpMax"
+    },
+    {
+      "items": "heart3",
+      "imagename": "heart3.png",
+      "Description": "Blood Pact: Attack +25, sacrifice 30% HP",
+      "Effect": "SacrificeHpForAttack"
+    },
+    {
+      "items": "heart_vitality",
+      "imagename": "heart1.png",
+      "Description": "Vitality: Max HP +40 and heal 40 HP",
+      "Effect": "Vitality"
+    },
+    {
+      "items": "heart_regen",
+      "imagename": "heart2.png",
+      "Description": "Second Wind: Restore 50% missing HP",
+      "Effect": "SecondWind"
+    },
+    {
+      "items": "ring_swift",
+      "imagename": "rings1.png",
+      "Description": "Swift Strike: Attack Cooldown -20%",
+      "Effect": "AttackRate"
+    },
+    {
+      "items": "ring_bullet",
+      "imagename": "rings2.png",
+      "Description": "Velocity Ring: Bullet Speed +250",
+      "Effect": "BulletSpeed"
+    },
+    {
+      "items": "ring_stride",
+      "imagename": "rings1.png",
+      "Description": "Windwalker: Movement Speed +50 px/s",
+      "Effect": "MoveSpeed"
+    },
+    {
+      "items": "ring_power",
+      "imagename": "rings2.png",
+      "Description": "Power Ring: Attack Damage +20",
+      "Effect": "AddAttack"
+    },
+    {
+      "items": "ring_sniper",
+      "imagename": "rings2.png",
+      "Description": "Hyper Shuriken: Bullet Speed +300, Attack +15",
+      "Effect": "Sniper"
+    },
+    {
+      "items": "ring_haste",
+      "imagename": "rings1.png",
+      "Description": "Berserk: Move Speed +35 & Fire Rate +15%",
+      "Effect": "Haste"
+    },
+    {
+      "items": "ring_mastery",
+      "imagename": "rings1.png",
+      "Description": "Grandmaster: Attack +15, HP +30, Speed +25",
+      "Effect": "AllStats"
+    },
+    {
+      "items": "killyourself",
+      "imagename": "killyourself.png",
+      "Description": "Curse of Isekai: Escape this misery",
+      "Effect": "KillSelf"
+    }
+  ]
 }

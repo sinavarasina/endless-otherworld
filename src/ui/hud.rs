@@ -68,7 +68,6 @@ pub fn spawn_hud_system(
                     BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.5)),
                 ))
                 .with_children(|bar| {
-                    // HP Bar Fill
                     bar.spawn((
                         HpBarFill,
                         Node {
@@ -106,64 +105,74 @@ pub fn spawn_hud_system(
                 ));
             });
 
-            // Bottom-left info: Level, EXP
-            root.spawn((
-                LevelExpText,
-                Text::new("Level: 1  EXP: 0 / 1000"),
-                TextFont {
-                    font: font_handle.clone(),
-                    font_size: 24.0,
-                    ..default()
-                },
-                TextColor(Color::WHITE),
-                Node {
-                    position_type: PositionType::Absolute,
-                    left: Val::Px(20.0),
-                    bottom: Val::Px(24.0),
-                    ..default()
-                },
-            ));
+            // Dedicated Bottom HUD Bar: Flex row above progress bar (Never overlaps!)
+            root.spawn(Node {
+                position_type: PositionType::Absolute,
+                left: Val::Px(0.0),
+                bottom: Val::Px(0.0),
+                width: Val::Percent(100.0),
+                flex_direction: FlexDirection::Column,
+                ..default()
+            })
+            .with_children(|bottom_bar| {
+                // Text Row (Level/EXP on left, Score/Time on right)
+                bottom_bar
+                    .spawn((
+                        Node {
+                            width: Val::Percent(100.0),
+                            flex_direction: FlexDirection::Row,
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::Center,
+                            padding: UiRect::axes(Val::Px(24.0), Val::Px(8.0)),
+                            ..default()
+                        },
+                        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.65)),
+                    ))
+                    .with_children(|row| {
+                        row.spawn((
+                            LevelExpText,
+                            Text::new("Level: 1  |  EXP: 0 / 1000"),
+                            TextFont {
+                                font: font_handle.clone(),
+                                font_size: 22.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ));
 
-            // Bottom-right info: Score, Time
-            root.spawn((
-                ScoreTimeText,
-                Text::new("SCORE: 0   Time: 0s"),
-                TextFont {
-                    font: font_handle.clone(),
-                    font_size: 28.0,
-                    ..default()
-                },
-                TextColor(Color::WHITE),
-                Node {
-                    position_type: PositionType::Absolute,
-                    right: Val::Px(20.0),
-                    bottom: Val::Px(24.0),
-                    ..default()
-                },
-            ));
+                        row.spawn((
+                            ScoreTimeText,
+                            Text::new("SCORE: 0  |  Time: 0s"),
+                            TextFont {
+                                font: font_handle.clone(),
+                                font_size: 22.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ));
+                    });
 
-            // Bottom full-width leveling bar container
-            root.spawn((
-                Node {
-                    position_type: PositionType::Absolute,
-                    left: Val::Px(0.0),
-                    bottom: Val::Px(0.0),
-                    width: Val::Percent(100.0),
-                    height: Val::Px(8.0),
-                    ..default()
-                },
-                BackgroundColor(Color::srgb(0.15, 0.15, 0.15)),
-            ))
-            .with_children(|bar| {
-                bar.spawn((
-                    LevelProgressBarFill,
-                    Node {
-                        width: Val::Percent(0.0),
-                        height: Val::Percent(100.0),
-                        ..default()
-                    },
-                    BackgroundColor(Color::srgb(0.0, 1.0, 0.0)),
-                ));
+                // EXP Progress Bar (at the very bottom)
+                bottom_bar
+                    .spawn((
+                        Node {
+                            width: Val::Percent(100.0),
+                            height: Val::Px(8.0),
+                            ..default()
+                        },
+                        BackgroundColor(Color::srgb(0.12, 0.12, 0.12)),
+                    ))
+                    .with_children(|bar| {
+                        bar.spawn((
+                            LevelProgressBarFill,
+                            Node {
+                                width: Val::Percent(0.0),
+                                height: Val::Percent(100.0),
+                                ..default()
+                            },
+                            BackgroundColor(Color::srgb(0.0, 1.0, 0.0)),
+                        ));
+                    });
             });
         });
 }
@@ -201,7 +210,7 @@ pub fn update_hud_system(
 
     // Update Level & EXP text
     if let Ok(mut text) = level_exp_text_q.get_single_mut() {
-        **text = format!("Level: {}   EXP: {} / {}", exp.level, exp.exp, exp.xp_target);
+        **text = format!("Level: {}  |  EXP: {} / {}", exp.level, exp.exp, exp.xp_target);
     }
 
     // Update Leveling Progress Bar along bottom
@@ -212,7 +221,7 @@ pub fn update_hud_system(
 
     // Update Score & Time text
     if let Ok(mut text) = score_time_text_q.get_single_mut() {
-        **text = format!("SCORE: {}   Time: {}s", score.score, score.survival_seconds);
+        **text = format!("SCORE: {}  |  Time: {}s", score.score, score.survival_seconds);
     }
 }
 

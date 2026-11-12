@@ -10,3 +10,14 @@ pub const Z_ENEMY: f32 = 20.0;
 pub const Z_PLAYER: f32 = 30.0;
 pub const Z_BULLET: f32 = 40.0;
 pub const Z_EFFECT: f32 = 50.0;
+
+/// Wraps world coordinate across [0, MAP_SIZE) for a toroidal map.
+#[inline]
+pub fn wrap_map_coord(val: f32) -> f32 {
+    let rem = val % MAP_SIZE;
+    if rem < 0.0 {
+        rem + MAP_SIZE
+    } else {
+        rem
+    }
+}

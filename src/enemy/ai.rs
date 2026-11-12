@@ -77,8 +77,8 @@ pub fn enemy_movement_system(
             }
         }
 
-        pos.x = pos.x.clamp(30.0, MAP_SIZE - 30.0);
-        pos.y = pos.y.clamp(30.0, MAP_SIZE - 30.0);
+        pos.x = wrap_map_coord(pos.x);
+        pos.y = wrap_map_coord(pos.y);
 
         transform.translation.x = pos.x;
         transform.translation.y = pos.y;

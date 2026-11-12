@@ -83,9 +83,9 @@ pub fn player_movement(
             }
         }
 
-        // Clamp to map boundaries
-        pos.x = pos.x.clamp(50.0, MAP_SIZE - 50.0);
-        pos.y = pos.y.clamp(50.0, MAP_SIZE - 50.0);
+        // Toroidal wrap around map boundaries
+        pos.x = wrap_map_coord(pos.x);
+        pos.y = wrap_map_coord(pos.y);
 
         transform.translation.x = pos.x;
         transform.translation.y = pos.y;

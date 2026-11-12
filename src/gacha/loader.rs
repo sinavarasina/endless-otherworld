@@ -9,6 +9,8 @@ struct RawItem {
     imagename: String,
     #[serde(rename = "Description")]
     description: String,
+    #[serde(rename = "Effect")]
+    effect: Option<String>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -37,13 +39,21 @@ impl GachaDeck {
             .gacha_items
             .into_iter()
             .map(|raw| {
-                let effect = match raw.items.as_str() {
-                    "heart1" => GachaEffect::HealFull,
-                    "heart2" => GachaEffect::BoostHpMax,
-                    "heart3" => GachaEffect::SacrificeHpForAttack,
-                    "killyourself" => GachaEffect::KillSelf,
-                    "ring1" => GachaEffect::AttackSpeed,
-                    "ring2" => GachaEffect::BulletSpeed,
+                let effect_str = raw.effect.as_deref().unwrap_or(raw.items.as_str());
+                let effect = match effect_str {
+                    "HealFull" | "heart1" => GachaEffect::HealFull,
+                    "BoostHpMax" | "heart2" => GachaEffect::BoostHpMax,
+                    "SacrificeHpForAttack" | "heart3" => GachaEffect::SacrificeHpForAttack,
+                    "Vitality" => GachaEffect::Vitality,
+                    "SecondWind" => GachaEffect::SecondWind,
+                    "AttackRate" | "ring1" => GachaEffect::AttackRate,
+                    "BulletSpeed" | "ring2" => GachaEffect::BulletSpeed,
+                    "MoveSpeed" => GachaEffect::MoveSpeed,
+                    "AddAttack" => GachaEffect::AddAttack,
+                    "Sniper" => GachaEffect::Sniper,
+                    "Haste" => GachaEffect::Haste,
+                    "AllStats" => GachaEffect::AllStats,
+                    "KillSelf" | "killyourself" => GachaEffect::KillSelf,
                     _ => GachaEffect::HealFull,
                 };
 

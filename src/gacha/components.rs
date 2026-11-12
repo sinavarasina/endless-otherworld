@@ -5,9 +5,16 @@ pub enum GachaEffect {
     HealFull,
     BoostHpMax,
     SacrificeHpForAttack,
-    KillSelf,
-    AttackSpeed,
+    Vitality,
+    SecondWind,
+    AttackRate,
     BulletSpeed,
+    MoveSpeed,
+    AddAttack,
+    Sniper,
+    Haste,
+    AllStats,
+    KillSelf,
 }
 
 #[derive(Debug, Clone)]
