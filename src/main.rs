@@ -7,6 +7,7 @@ pub mod audio;
 pub mod combat;
 pub mod core;
 pub mod enemy;
+pub mod fps;
 pub mod gacha;
 pub mod player;
 pub mod score;
@@ -19,6 +20,7 @@ use combat::CombatPlugin;
 use core::constants::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use core::state::GameState;
 use enemy::EnemyPlugin;
+use fps::FpsPlugin;
 use gacha::GachaPlugin;
 use player::PlayerPlugin;
 use score::ScorePlugin;
@@ -87,6 +89,7 @@ fn main() {
             ScorePlugin,
             GameAudioPlugin,
             UiPlugin,
+            FpsPlugin,
         ))
         .run();
 }
