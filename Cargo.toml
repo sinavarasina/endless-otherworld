@@ -1,0 +1,18 @@
+[package]
+name = "endless-otherworld"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = "0.15"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rand = "0.8"
+
+# Enable a small amount of optimization in debug mode for smoother physics/animations
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
+lto = "thin"

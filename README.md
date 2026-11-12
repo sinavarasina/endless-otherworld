@@ -8,20 +8,18 @@
 
 ## Library, Frameworks & Tools yang digunakan
 
-- Python 3.13
-- PyGame
-
-<i>Pastikan version Python 3.13 di Komputer anda (Versi lain mungkin tidak berkerja)</i>
+- Rust (Edition 2024)
+- Bevy Engine 0.15
 
 ## Cara Bermain
-1. Copy repository ini
+1. Masuk ke root foldernya
+2. Jalankan gamenya
+```bash
+cargo run --release
 ```
-git clone https://github.com/sinavarasina/endless-otherworld.git
-```
-2. Masuk ke root foldernya
-3. Jalankan gamenya
-```
-python main.py
+Atau untuk menjalankan unit test:
+```bash
+cargo test
 ```
 
 ## Kontributor

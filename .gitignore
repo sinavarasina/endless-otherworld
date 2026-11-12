@@ -1,2 +1,6 @@
+/target
 __pycache__/
 *.pyc
+*.log
+*map_pbo_fix_full.png
+
